@@ -1,0 +1,216 @@
+<div class="d-flex">
+
+
+  <button class="ms-2 btnn" (click)="remplirTransaction()" [disabled]="isUploadLoading || isUploadCompleted">
+    <span *ngIf="isUploadLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+    <span *ngIf="isUploadCompleted" class="text-success me-1">✓</span>
+    {{ isUploadLoading ? 'Uploading...' : isUploadCompleted ? 'Uploaded' : 'Transaction' }}
+  </button>
+
+  <button class="ms-2 btnn" (click)="loadWireConsumption()"
+    [disabled]="isGettingWire || isGettingWireCompleted || !isUploadCompleted">
+    <span *ngIf="isGettingWire" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+    <span *ngIf="isGettingWireCompleted" class="text-success me-1">✓</span>
+    {{ isGettingWire ? 'Loading...' : isGettingWireCompleted ? 'Data Loaded' : 'Get Wire Consumption' }}
+  </button>
+
+  <button (click)="resetWorkflow()" class="text-danger ms-2"> RESET</button>
+
+
+</div>
+
+
+<div class="p-0 m-0 mt-2">
+  <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900 text-white shadow-lg w-100">
+    <thead class="bg-gray-800 text-gray-300 text-center">
+      <tr>
+        <th class="py-3 px-4 text-left"> Plant</th>
+        <th class="py-3 px-4 text-left"> Supplier</th>
+        <th class="py-3 px-4 text-left">WeekNumber</th>
+        <th class="py-3 px-4 text-left">YearB</th>
+        <th class="py-3 px-4 text-left">InitialStock</th>
+        <th class="py-3 px-4 text-left">QuantityReceived</th>
+        <th class="py-3 px-4 text-left">RealConsumption</th>
+        <th class="py-3 px-4 text-left">FinalStock</th>
+        <th class="py-3 px-4 text-left">MaterialBreaks</th>
+        <th class="py-3 px-4 text-left">ProcessBreaks</th>
+        <th class="py-3 px-4 text-left">Rate</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      @for(wire of paginatedData ; track $index){
+      <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
+        <td class="py-3 px-4"> {{wire.Plant}} </td>
+        <td class="py-3 px-4"> {{wire.Supplier}} </td>
+        <td class="py-3 px-4"> {{wire.Week_Number}} </td>
+        <td class="py-3 px-4"> {{wire.yearB}} </td>
+        <td class="py-3 px-4 green"> {{wire.Initial_Stock}} </td>
+        <td class="py-3 px-4 green"> {{wire.Quantity_received}} </td>
+        <td class="py-3 px-4 green"> {{wire.Real_Consumption}} </td>
+        <td class="py-3 px-4 red"> {{wire.Final_Stock}} </td>
+        <td class="py-3 px-4 red"> {{wire.MaterialBreaks}} </td>
+        <td class="py-3 px-4 red"> {{wire.ProcessBreaks}} </td>
+        <td class="py-3 px-4 red"> {{wire.Rate}} </td>
+        <td class="text-center">
+          <i class="fas fa-plus-circle add-icon" style="color: green;" data-bs-toggle="modal"
+            data-bs-target="#calculeModal"  (click)="getwireconsumption(wire.Plant, wire.Supplier, wire.Week_Number, wire.yearB)">
+          </i>
+          <!-- <i class="fas fa-sync-alt update-icon ms-2" style="color: orange;"></i>
+          <i class="fas fa-save save-icon ms-2" style="color: blue;"></i> -->
+        </td>
+      </tr>
+      }
+
+    </tbody>
+  </table>
+
+
+
+
+
+  <!-- Menu de pagination sous le tableau -->
+  <div class="pagination-container text-center mt-4 w-50  mx-auto">
+    <ul class="pagination justify-content-center" style="width: 50%; margin: 0 auto;">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" href="javascript:void(0)" (click)="changePage(1)">First</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" href="javascript:void(0)" (click)="changePage(currentPage - 1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page">
+        <a class="page-link" href="javascript:void(0)" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" href="javascript:void(0)" (click)="changePage(currentPage + 1)">Next</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" href="javascript:void(0)" (click)="changePage(totalPages)">Last</a>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- modal ajout-->
+
+<div class="modal fade"  id="calculeModal"  tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel"> REMPLIR DATA </h5>
+        <button type="button" #closemodal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addForm">
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Plant" class="form-label">Plant:</label>
+              <input type="text" formControlName="Plant" name="Plant" id="Plant" class="form-control"
+                placeholder="Plant">
+            </div>
+            <div class="mb-3 col-6">
+              <label for="Supplier" class="form-label">Supplier:</label>
+              <input type="text" formControlName="Supplier" name="Supplier" id="Supplier" class="form-control"
+                placeholder="Supplier">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Week_Number" class="form-label">Week_Number:</label>
+              <input type="number" formControlName="Week_Number" name="Week_Number" id="Week_Number"
+                class="form-control" placeholder="Week_Number">
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="yearB" class="form-label">yearB:</label>
+              <input type="number" formControlName="yearB" name="yearB" id="yearB" class="form-control"
+                placeholder="yearB">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Final_Stock" class="form-label">Final_Stock:</label>
+              <input type="number" formControlName="Final_Stock" name="Final_Stock" id="Final_Stock"
+                class="form-control" placeholder="Final_Stock">
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="MaterialBreaks" class="form-label">MaterialBreaks:</label>
+              <input type="number" formControlName="MaterialBreaks" name="MaterialBreaks" id="MaterialBreaks"
+                class="form-control" placeholder="MaterialBreaks">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="ProcessBreaks" class="form-label">ProcessBreaks:</label>
+              <input type="number" formControlName="ProcessBreaks" name="ProcessBreaks" id="ProcessBreaks"
+                class="form-control" placeholder="ProcessBreaks">
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="Rate" class="form-label">Rate:</label>
+              <input type="number" formControlName="Rate" name="Rate" id="Rate" class="form-control" placeholder="Rate">
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Real_Consumption" class="form-label">Real_Consumption:</label>
+              <input type="number" formControlName="Real_Consumption" name="Real_Consumption" id="Real_Consumption"
+                class="form-control" placeholder="Real_Consumption">
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="Quantity_received" class="form-label">Quantity_received:</label>
+              <input type="number" formControlName="Quantity_received" name="Quantity_received" id="Quantity_received"
+                class="form-control" placeholder="Quantity_received">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-12">
+              <label for="initial_stock" class="form-label">Initial Stock:</label>
+              <input type="number" formControlName="initial_stock" name="initial_stock" id="initial_stock"
+                class="form-control" placeholder="initial_stock">
+            </div>
+          </div>
+
+
+
+
+
+          <div class="container">
+            <button (click)="updateWireConsumption()" [disabled]="isLoading">
+              {{ isLoading ? 'Mise à jour en cours...' : 'Mettre à jour la consommation' }}
+            </button>
+
+            <p *ngIf="message">{{ message }}</p>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>

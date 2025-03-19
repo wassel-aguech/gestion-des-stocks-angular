@@ -1,0 +1,125 @@
+
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+  + Add User
+</button>
+
+
+<div class="p-4">
+  <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900 text-white shadow-lg w-100">
+    <thead class="bg-gray-800 text-gray-300 text-center">
+      <tr>
+        <th class="py-3 px-4 text-left">ID</th>
+        <th class="py-3 px-4 text-left"> NAME</th>
+        <th class="py-3 px-4 text-left"> EMAIL</th>
+        <th class="py-3 px-4 text-left">ROLE</th>
+        <th class="py-3 px-4 text-left">PLANT-NAME</th>
+
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      @for(data of listUser ; track $index){
+      <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
+        <td class="py-3 px-4"> {{data.id}} </td>
+        <td class="py-3 px-4"> {{data.name}} </td>
+        <td class="py-3 px-4"> {{data.email}} </td>
+        <td class="py-3 px-4"> {{data.role}} </td>
+        <td class="py-3 px-4"> {{data.plant_name}} </td>
+        <td class="text-center">
+          <i class="fas fa-rotate-right update-icon" style="color: white;"></i>
+          
+          <i class="fas fa-trash delete-icon ms-2" 
+           style="color: white; cursor: pointer;" 
+            (click)="deleteUser(data.id)" ></i>
+      
+        </td>
+      </tr> 
+    }@empty{
+      <h1 class="text-danger text-center"> No data founded </h1>
+    }
+    </tbody>
+  </table>
+</div>
+
+
+
+
+<!-- modal ajout-->
+
+<div class="modal fade" id="inventoryModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Add User</h5>
+        <button type="button"  #closemodal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="userForm">
+
+          <div class="mb-3">
+            <label for="Name" class="form-label">Name:</label>
+            <input type="text" formControlName="name" name="name" id="name" class="form-control" placeholder="Name">
+          </div>
+          <div class="mb-3">
+            <label for="Email" class="form-label">Email:</label>
+            <input type="email" formControlName="email" name="email" id="email" class="form-control" placeholder="Email">
+          </div>
+
+          <div class="mb-3">
+            <label for="Email" class="form-label">Password:</label>
+            <input type="password" formControlName="password" name="password" id="password" class="form-control" placeholder="password">
+          </div>
+
+          <div class="mb-3">
+            <label for="role" class="form-label">Role:</label>
+            <select formControlName="role" name="role" id="role" class="form-control form-select">
+              <option value="" selected disabled>-- Sélectionner le rôle --</option>
+              <option value="Admin">Admin</option>
+              <option value="Plant">Plant</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="plant" class="form-label">Plant:</label>
+            <select formControlName="plant_name" name="plant_name" id="plant_name" class="form-select">
+              <option value="" selected disabled>-- Sélectionner le Plant --</option>
+              @for(plant of plants ; track $index){
+              <option [value]="plant.Plant">
+                {{ plant.Plant }}
+              </option>
+             }@empty {
+              <h1> NO PLATNS FOUNDED INYOUR LIST</h1>
+            }
+            </select>
+          </div>
+
+          <button  (click)="onSubmit()" class="btn btn-success w-100" [disabled]="userForm.invalid">ADD</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

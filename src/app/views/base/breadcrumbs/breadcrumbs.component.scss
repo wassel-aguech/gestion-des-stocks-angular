@@ -1,0 +1,101 @@
+
+
+button {
+    display: inline-block;
+    background: linear-gradient(45deg, #FFD700, #FFC107); /* Dégradé doré */
+    color: #1A1A1A; /* Noir légèrement adouci pour le texte */
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3); /* Ombre dorée */
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(45deg, #FFC107, #FFB300); /* Doré plus intense au hover */
+    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6); /* Ombre plus lumineuse */
+  }
+  
+
+  th{
+    background-color: gray;
+    border: 1px solid white;
+  }
+  td{
+    border: 1px solid white;
+  }
+
+
+  /* update design*/
+  .inventory-container {
+    padding: 20px;
+  }
+  
+  .inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .inventory-table th, .inventory-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .inventory-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .inventory-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .update-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  
+  .update-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .update-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-available;
+  }
+  
+  .edit-input {
+    width: 80px;
+    padding: 5px;
+    border: 2px solid #4CAF50;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+  }
+  
+  .edit-input:focus {
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+
+  /* update icon*/
+  .update-icon {
+    color: white;
+    transition: all 0.3s ease; /* Transition en douceur pour tous les changements */
+  }
+  
+  /* Effet au survol de l'icône */
+  .update-icon:hover {
+    color: #ffcc00; /* Changement de couleur au survol (jaune doré) */
+    transform: scale(1.2); /* Légère augmentation de taille */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); /* Effet de halo lumineux */
+  }

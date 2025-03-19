@@ -1,0 +1,269 @@
+<div>
+
+  <div class="file-upload-container" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+    <label class="file-upload-label">Saisir Manuelle</label>
+  </div>
+
+  <div class="file-upload-container ms-2">
+    <label for="file" class="file-upload-label">Choisir un fichier</label>
+    <input type="file" id="file" (change)="onFileSelected($event)" accept=".xlsx,.xls" class="file-upload-input">
+  </div>
+
+  <button class="ms-2 btnn" (click)="uploadFile()" [disabled]="isUploadLoading || isUploadCompleted">
+    <span *ngIf="isUploadLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+    <span *ngIf="isUploadCompleted" class="text-success me-1">✓</span>
+    {{ isUploadLoading ? 'Uploading...' : isUploadCompleted ? 'Uploaded' : 'Upload' }}
+  </button>
+
+  <button class="ms-2 btnn" (click)="getTemporaryData()"
+    [disabled]="isShowDataLoading || isShowDataCompleted || !isUploadCompleted">
+    <span *ngIf="isShowDataLoading" class="spinner-border spinner-border-sm me-1" role="status"
+      aria-hidden="true"></span>
+    <span *ngIf="isShowDataCompleted" class="text-success me-1">✓</span>
+    {{ isShowDataLoading ? 'Loading...' : isShowDataCompleted ? 'Data Loaded' : 'Show Data' }}
+  </button>
+
+  <button class="ms-2 btnn" (click)="validateData()"
+    [disabled]="isSaveDataLoading || isSaveDataCompleted || !isShowDataCompleted">
+    <span *ngIf="isSaveDataLoading" class="spinner-border spinner-border-sm me-1" role="status"
+      aria-hidden="true"></span>
+    <span *ngIf="isSaveDataCompleted" class="text-success me-1">✓</span>
+    {{ isSaveDataLoading ? 'Saving...' : isSaveDataCompleted ? 'Data Saved' : 'Save Data' }}
+  </button>
+
+  <button *ngIf="isSaveDataCompleted" class="ms-2 recommencer" (click)="resetWorkflow()">
+    Recommencer
+  </button>
+
+
+
+  <table *ngIf="temporaryData">
+    <thead>
+      <tr>
+        <th *ngFor="let key of displayedColumns">{{ key }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of temporaryData">
+        <td contenteditable *ngFor="let key of displayedColumns">{{ row[key] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!--   affiche des wirebreackdetails liste -->
+
+
+<div class="p-0 m-0">
+  <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900 text-white shadow-lg w-100">
+    <thead class="bg-gray-800 text-gray-300 text-center">
+      <tr>
+        <th class="py-3 px-4 text-left"> Plant</th>
+        <th class="py-3 px-4 text-left"> Supplier</th>
+        <th class="py-3 px-4 text-left">WeekNumber</th>
+        <th class="py-3 px-4 text-left">Wire_Break_Type</th>
+        <th class="py-3 px-4 text-left">Break_date</th>
+        <th class="py-3 px-4 text-left">num_of_break</th>
+        <th class="py-3 px-4 text-left">Machine_Number</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      <!-- @for(data of listWireConsumption ; track $index){ -->
+      <!-- <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
+        <td class="py-3 px-4"> {{data.Plant}} </td>
+        <td class="py-3 px-4"> {{data.Supplier}} </td>
+        <td class="py-3 px-4"> {{data.Week_Number}} </td>
+        <td class="py-3 px-4"> {{data.Wire_Break_Type}} </td>
+        <td class="py-3 px-4"> {{data.Break_date}} </td>
+        <td class="py-3 px-4"> {{data.num_of_break}} </td>
+        <td class="py-3 px-4"> {{data.Machine_Number}} </td>
+
+      </tr> -->
+      <!-- } -->
+
+    </tbody>
+  </table>
+  <!-- <p *ngIf="listwiredetails.length < 0 " class="text-center text-danger ">>   no  WireConsumption  founded</p> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  modal ajout  wirebreackmanuelle manuelle-->
+
+
+
+<div class="modal fade" id="inventoryModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Ajouter un Stock</h5>
+        <button type="button" #closemodal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="wireBreackDetailsForm">
+
+          <div class="row">
+          <div class="mb-3 col-6">
+            <label for="plant" class="form-label">Plant:</label>
+            <select formControlName="Plant" name="Plant" id="Plant" class="form-select">
+              <option value="" disabled selected>Choisir un plant ...</option>
+              @for(plant of plants ; track $index){
+              <option [value]="plant.Plant">
+                {{ plant.Plant }}
+              </option>
+              }@empty {
+              <h1> NO PLATNS FOUNDED IN YOUR LIST</h1>
+              }
+            </select>
+          </div>
+
+          <div class="mb-3 col-6">
+            <label for="supplier" class="form-label">Supplier:</label>
+            <select formControlName="Supplier" name="Supplier" id="Supplier" class="form-select">
+              <option value="" disabled selected>Choisir un supplier </option>
+              @for(supplier of suppliers ;track $index){
+              <option [value]="supplier.supplierid">
+                {{ supplier.supplierid }}
+              </option>
+              }@empty {
+              <h1> NO SUPPLIER FOUNDED IN YOUR LIST</h1>
+              }
+            </select>
+          </div>
+        </div>
+
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Week_Number" class="form-label">Week_Number:</label>
+              <input type="text" formControlName="Week_Number" name="Week_Number" placeholder="Week_Number"
+                id="Week_Number" class="form-control">
+            </div>
+
+            <div class="mb-3 col-6">
+              <label for="Wire_Break_Type" class="form-label">Wire_Break_Type:</label>
+              <select formControlName="Wire_Break_Type" name="Wire_Break_Type" id="Wire_Break_Type" class="form-select">
+                <option value="" disabled selected>Choisir un Wire_Break_Type </option>
+                @for(wiretype of wirebreakTypes ;track $index){
+                <option [value]="wiretype.wirebreaktype">
+                  {{ wiretype.wirebreaktype }}
+                </option>
+                }@empty {
+                <h1> NO PLATNS FOUNDED INYOUR LIST</h1>
+                }
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Break_date" class="form-label">Break_date:</label>
+              <input type="text" formControlName="Break_date" name="Break_date" placeholder="Break_date" id="Break_date"
+                class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+              <label for="num_of_break" class="form-label">num_of_break:</label>
+              <input type="number" formControlName="num_of_break" name="num_of_break" placeholder="num_of_break"
+                id="num_of_break" class="form-control">
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Machine_Number" class="form-label">Machine_Number:</label>
+              <select formControlName="Machine_Number" name="Machine_Number" id="Machine_Number" class="form-select">
+                <option value="" disabled selected>Choisir un Machine_Number </option>
+                @for(machine of machineTypes ;track $index){
+                <option [value]="machine.machinetype">
+                  {{ machine.machinetype }}
+                </option>
+                }@empty {
+                <h1> NO PLATNS FOUNDED INYOUR LIST</h1>
+                }
+              </select>
+            </div>
+
+
+            <div class="mb-3 col-6">
+              <label for="Batch_Number" class="form-label">Batch_Number:</label>
+              <input type="text" formControlName="Batch_Number" name="Batch_Number" placeholder="Batch_Number"
+                id="Batch_Number" class="form-control">
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="mb-3 col-6">
+              <label for="Break_Diameter" class="form-label">Break_Diameter:</label>
+              <input type="number" formControlName="Break_Diameter" name="Break_Diameter" placeholder="Break_Diameter"
+                id="Break_Diameter" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+              <label for="Range_" class="form-label">Range_:</label>
+              <input type="text" formControlName="Range_" name="Range_" placeholder="Range_" id="Range_"
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mb-3 col-12">
+              <label for="Finished_Wire_Diameter" class="form-label">Finished_Wire_Diameter:</label>
+              <input type="number" formControlName="Finished_Wire_Diameter" name="Finished_Wire_Diameterr"
+                placeholder="Finished_Wire_Diameter" id="Finished_Wire_Diameter" class="form-control">
+            </div>
+          </div>
+
+          <button (click)="onSubmit()" class="btn btn-success w-100">ADD</button>
+          <!-- [disabled]="wireBreackDetailsForm.invalide" -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+  + Add Inventory
+</button>
+
+
+<div class="p-4">
+  <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900 text-white shadow-lg w-100">
+    <thead class="bg-gray-800 text-gray-300 text-center">
+      <tr>
+        <th class="py-3 px-4 text-left">Plant</th>
+        <th class="py-3 px-4 text-left"> Supplier</th>
+        <th class="py-3 px-4 text-left">Initial Stock</th>
+        <th class="py-3 px-4 text-left">Year</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      @for(data of listInventory ; track $index){
+      <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
+        <td class="py-3 px-4"> {{data.plant}} </td>
+        <td class="py-3 px-4"> {{data.supplier}} </td>
+        <td>
+          <ng-container *ngIf="isEditing(data); else displayMode">
+            <input 
+              id="editStock" 
+              type="number" 
+              [(ngModel)]="data.initial_stock" 
+              (keydown)="handleKeyEvent($event, data)"
+              (blur)="saveItem(data)"
+              class="edit-input">
+          </ng-container>
+          
+          <ng-template #displayMode>
+            {{ data.initial_stock }}
+          </ng-template>
+        </td>
+        <td class="py-3 px-4"> {{data.Year}} </td>
+        <td class="text-center">
+          <i class="fas fa-rotate-right update-icon" style="color: white;"
+          (click)="startEditing(data)" 
+          [ngClass]="{'disabled-icon': isEditing(data)}"
+          
+          ></i>
+        </td>
+      </tr>
+    }@empty{
+      <h1 class="text-danger text-center"> No data founded </h1>
+    }
+    </tbody>
+  </table>
+</div>
+
+
+
+
+<!-- modal ajout-->
+
+<div class="modal fade" id="inventoryModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Ajouter un Stock</h5>
+        <button type="button"  #closemodal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="inventoryForm">
+          <div class="mb-3">
+            <label for="plant" class="form-label">Plant:</label>
+            <select formControlName="plant" name="plant" id="plant" class="form-select">
+              @for(plant of plants ; track $index){
+              <option [value]="plant.Plant">
+                {{ plant.Plant }}
+              </option>
+             }@empty {
+              <h1> NO PLATNS FOUNDED INYOUR LIST</h1>
+            }
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="supplier" class="form-label">Supplier:</label>
+            <select formControlName="supplier" name="supplier" id="supplier" class="form-select">
+              <option *ngFor="let supplier of suppliers" [value]="supplier.supplierid">
+                {{ supplier.supplierid }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="initial_stock" class="form-label">Initial Stock:</label>
+            <input type="number" formControlName="initial_stock" name="initial_stock" id="initial_stock" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label for="year" class="form-label">Year:</label>
+            <input type="number" formControlName="Year" name="Year" id="Year" class="form-control">
+          </div>
+
+          <button (click)="onSubmit()" class="btn btn-success w-100" [disabled]="inventoryForm.invalid">ADD</button>
+
+          <div *ngIf="errorMessage" class="text-danger mt-2">
+            {{ errorMessage }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
