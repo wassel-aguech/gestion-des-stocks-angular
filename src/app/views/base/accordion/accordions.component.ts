@@ -11,7 +11,7 @@ import { SupplierService } from '../../../services/supplier.service';
 import { WirebreaktypeService } from '../../../services/wirebreaktype.service';
 import { MachineService } from '../../../services/machine.service';
 import { WirebreakType } from '../../../models/wirebreaktype';
-import { MachineType } from '../../../models/machinetype';
+import { Machine } from '../../../models/machine';
 
 @Component({
     selector: 'app-accordions',
@@ -38,7 +38,7 @@ export class AccordionsComponent implements OnInit {
   wireBreakData: any = {}
   plants : Plant[] = []
   suppliers : Supplier [] = []
-  machineTypes : MachineType[] = []
+  machines : Machine[] = []
   wirebreakTypes : WirebreakType [] = []
 
 
@@ -48,7 +48,7 @@ export class AccordionsComponent implements OnInit {
   private machineService  = inject(MachineService);
   private wireBreakTypeService = inject(WirebreaktypeService);
 
-
+  wirenumbers : any
 
   constructor( ) {
 
@@ -66,6 +66,21 @@ export class AccordionsComponent implements OnInit {
           Finished_Wire_Diameter :new FormControl('', Validators.required),
         })
 
+        this.wirenumbers = [
+          {id: '1', code: 'W1'},  {id: '2', code: 'W2'}, {id: '3', code: 'W3'}, {id: '3', code: 'W4'}, {id: '4', code: 'W5'}, {id: '5', code: 'W6'},
+          {id: '6', code: 'W7'},  {id: '7', code: 'W8'}, {id: '8', code: 'W9'}, {id: '9', code: 'W10'}, {id: '10', code: 'W11'},
+          {id: '11', code: 'W12'}, {id: '12', code: 'W13'}, {id: '13', code: 'W14'}, {id: '14', code: 'W15'}, {id: '15', code: 'W16'},
+          {id: '5', code: 'W17'}, {id: '5', code: 'W18'},{id: '5', code: 'W18'}, {id: '5', code: 'W19'}, {id: '5', code: 'W20'},
+          {id: '5', code: 'W21'}, {id: '5', code: 'W22'}, {id: '5', code: 'W23'}, {id: '5', code: 'W24'}, {id: '5', code: 'W25'},
+          {id: '5', code: 'W26'}, {id: '5', code: 'W27'}, {id: '5', code: 'W28'}, {id: '5', code: 'W29'}, {id: '5', code: 'W30'},
+          {id: '5', code: 'W31'}, {id: '5', code: 'W32'}, {id: '5', code: 'W33'}, {id: '5', code: 'W34'}, {id: '5', code: 'W35'},
+          {id: '5', code: 'W36'}, {id: '5', code: 'W37'}, {id: '5', code: 'W38'}, {id: '5', code: 'W39'}, {id: '5', code: 'W40'},
+          {id: '5', code: 'W41'}, {id: '5', code: 'W42'}, {id: '5', code: 'W43'}, {id: '5', code: 'W44'}, {id: '5', code: 'W45'},
+          {id: '5', code: 'W46'}, {id: '5', code: 'W47'}, {id: '5', code: 'W48'}, {id: '5', code: 'W49'}, {id: '5', code: 'W50'},
+          {id: '5', code: 'W51'}, {id: '5', code: 'W52'}, {id: '5', code: 'W53'},
+
+        ]
+
   }
 
 
@@ -81,7 +96,7 @@ export class AccordionsComponent implements OnInit {
     });
 
     this.machineService.getMachines().subscribe({
-      next: (res) => this.machineTypes = res,
+      next: (res) => this.machines = res,
       error: (err) => console.error('Error  machine', err)
     });
 
@@ -173,19 +188,13 @@ export class AccordionsComponent implements OnInit {
   }
 
 
-   datePipe = inject (DatePipe)
-
-  formatDate(date: Date): string | null {
-    return this.datePipe.transform(date, 'yyyy/mm/dd');
-  }
-
   onSubmit(){
 
     this.wirebreackdetails.Plant                   = this.wireBreackDetailsForm.value.Plant
     this.wirebreackdetails.Supplier                = this.wireBreackDetailsForm.value.Supplier
     this.wirebreackdetails.Week_Number             = this.wireBreackDetailsForm.value.Week_Number
     this.wirebreackdetails.Wire_Break_Type         = this.wireBreackDetailsForm.value.Wire_Break_Type
-    this.wirebreackdetails.Break_date              = this.formatDate(this.wireBreackDetailsForm.value.Break_date)
+    this.wirebreackdetails.Break_date              = this.wireBreackDetailsForm.value.Break_date
     this.wirebreackdetails.num_of_break            = this.wireBreackDetailsForm.value.num_of_break
     this.wirebreackdetails.Machine_Number          = this.wireBreackDetailsForm.value.Machine_Number
     this.wirebreackdetails.Batch_Number            = this.wireBreackDetailsForm.value.Batch_Number

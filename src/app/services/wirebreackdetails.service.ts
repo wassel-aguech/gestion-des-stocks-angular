@@ -21,39 +21,54 @@ export class WirebreackdetailsService {
 // Saisir les donneés avec upload
 
   uploadFile(file: File): Observable<any> {
+
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
     const formData = new FormData();
     formData.append('file', file, file.name);
 
-    return this.http.post(`${this.apiUrl}/upload`, formData);
+    return this.http.post(`${this.apiUrl}/upload`, formData ,{headers});
   }
 
   getTemporaryData(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/get-temporary-data`);
+
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.get<any[]>(`${this.apiUrl}/get-temporary-data` ,{headers});
   }
 
   validateData(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/validate-data`, {});
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post(`${this.apiUrl}/validate-data`, {}, { headers }); // ✅
   }
+
 
 
 //  Saisir les donneés manuelle
 
    addWirebreackDetails(Wirebreackdetails: Wirebreackdetails): Observable<any> {
-        return this.http.post(`${this.apiUrl2}/Addwirebreak`, Wirebreackdetails);
+
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+
+    });
+
+
+        return this.http.post(`${this.apiUrl2}/Addwirebreak`, Wirebreackdetails,{headers});
       }
 
-
-      // addWirebreackDetails(Wirebreackdetails: any): Observable<any> {
-      //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-      //   return this.http.post(`${this.apiUrl2}/Addwirebreak`, Wirebreackdetails, { headers })
-      //     .pipe(
-      //       catchError((error: HttpErrorResponse) => {
-      //         console.error("Error occurred:", error);
-      //         return throwError(error);
-      //       })
-      //     );
-      // }
 
 
 

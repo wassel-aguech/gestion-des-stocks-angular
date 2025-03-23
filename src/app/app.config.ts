@@ -15,6 +15,7 @@ import { routes } from './app.routes';
 import {  provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { authInterceptor } from './services/auth-interseptor.service';
 import { DatePipe } from '@angular/common';
+import { provideToastr } from 'ngx-toastr';
 
 
 export const appConfig: ApplicationConfig = {
@@ -33,12 +34,18 @@ export const appConfig: ApplicationConfig = {
     ),
     importProvidersFrom(SidebarModule, DropdownModule),
     IconSetService,
-    provideAnimationsAsync(),
       provideHttpClient(
         withInterceptors([authInterceptor]),
-
         withInterceptorsFromDi()),
-        DatePipe
+        DatePipe,
+
+        provideAnimationsAsync(),
+        provideToastr({
+          positionClass: 'toast-top-right',
+          timeOut: 3000,
+          progressBar: true,
+          closeButton: true
+        })
 
 
 

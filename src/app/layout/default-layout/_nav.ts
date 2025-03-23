@@ -144,17 +144,17 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Select',
+        name: 'Machines',
         url: '/forms/select',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Checks & Radios',
+        name: 'WireBreakType',
         url: '/forms/checks-radios',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Range',
+        name: 'Suppliers',
         url: '/forms/range',
         icon: 'nav-icon-bullet'
       },

@@ -13,13 +13,13 @@ button {
     box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3); /* Ombre dorée */
     transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
   }
-  
+
   button:hover {
     transform: translateY(-3px);
     background: linear-gradient(45deg, #FFC107, #FFB300); /* Doré plus intense au hover */
     box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6); /* Ombre plus lumineuse */
   }
-  
+
 
   th{
     background-color: gray;
@@ -34,28 +34,28 @@ button {
   .inventory-container {
     padding: 20px;
   }
-  
+
   .inventory-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
   }
-  
+
   .inventory-table th, .inventory-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
   }
-  
+
   .inventory-table th {
     background-color: #f2f2f2;
     font-weight: bold;
   }
-  
+
   .inventory-table tr:nth-child(even) {
     background-color: #f9f9f9;
   }
-  
+
   .update-btn {
     background-color: #4CAF50;
     color: white;
@@ -64,16 +64,16 @@ button {
     cursor: pointer;
     border-radius: 3px;
   }
-  
+
   .update-btn:hover {
     background-color: #45a049;
   }
-  
+
   .update-btn:disabled {
     background-color: #cccccc;
     cursor: not-available;
   }
-  
+
   .edit-input {
     width: 80px;
     padding: 5px;
@@ -82,20 +82,32 @@ button {
     font-size: 14px;
     outline: none;
   }
-  
+
   .edit-input:focus {
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
   }
 
-  /* update icon*/
-  .update-icon {
-    color: white;
-    transition: all 0.3s ease; /* Transition en douceur pour tous les changements */
+
+
+
+  .update-icon, .delete-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
   }
-  
-  /* Effet au survol de l'icône */
+
+  .update-icon:hover, .delete-icon:hover {
+    transform: scale(1.2);
+    color: #00e676;
+  }
+
+  .update-icon, .delete-icon {
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .update-icon:hover, .delete-icon:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 10px #00e676, 0 0 20px #00e676, 0 0 30px #00e676;
+  }
+
   .update-icon:hover {
-    color: #ffcc00; /* Changement de couleur au survol (jaune doré) */
-    transform: scale(1.2); /* Légère augmentation de taille */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); /* Effet de halo lumineux */
+    transform: rotate(360deg) scale(1.2);
   }

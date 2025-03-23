@@ -178,11 +178,28 @@
 
 
           <div class="row">
-            <div class="mb-3 col-6">
+            <!-- <div class="mb-3 col-6">
               <label for="Week_Number" class="form-label">Week_Number:</label>
               <input type="text" formControlName="Week_Number" name="Week_Number" placeholder="Week_Number"
                 id="Week_Number" class="form-control">
+            </div> -->
+
+            <div class="mb-3 col-6">
+              <label for="Week_Number" class="form-label">Wire_Break_Type:</label>
+              <select formControlName="Week_Number" name="Week_Number" id="Week_Number" class="form-select">
+                <option value="" disabled selected>Choisir un Week_Number </option>
+                @for(wirenumber of wirenumbers ;track $index){
+                <option [value]="wirenumber.code">
+                  {{ wirenumber.code }}
+                </option>
+                }@empty {
+                <h1> NO PLATNS FOUNDED INYOUR LIST</h1>
+                }
+              </select>
             </div>
+
+
+
 
             <div class="mb-3 col-6">
               <label for="Wire_Break_Type" class="form-label">Wire_Break_Type:</label>
@@ -202,7 +219,7 @@
           <div class="row">
             <div class="mb-3 col-6">
               <label for="Break_date" class="form-label">Break_date:</label>
-              <input type="text" formControlName="Break_date" name="Break_date" placeholder="Break_date" id="Break_date"
+              <input type="date" formControlName="Break_date" name="Break_date" placeholder="Break_date" id="Break_date"
                 class="form-control">
             </div>
             <div class="mb-3 col-6">
@@ -219,9 +236,9 @@
               <label for="Machine_Number" class="form-label">Machine_Number:</label>
               <select formControlName="Machine_Number" name="Machine_Number" id="Machine_Number" class="form-select">
                 <option value="" disabled selected>Choisir un Machine_Number </option>
-                @for(machine of machineTypes ;track $index){
-                <option [value]="machine.machinetype">
-                  {{ machine.machinetype }}
+                @for(machine of machines ;track $index){
+                <option [value]="machine.codeMachine">
+                  {{ machine.codeMachine }}
                 </option>
                 }@empty {
                 <h1> NO PLATNS FOUNDED INYOUR LIST</h1>

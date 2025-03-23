@@ -1,0 +1,128 @@
+
+<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+  + Add machine
+</button>
+
+
+<div class="p-4">
+  <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900 text-white shadow-lg w-100">
+    <thead class="bg-gray-800 text-gray-300 text-center">
+      <tr>
+        <th class="py-3 px-4 text-left">#INDEX </th>
+        <th class="py-3 px-4 text-left">Code Machine </th>
+        <th class="py-3 px-4 text-left">Type Machine</th>
+
+
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      @for(data of listMachines ; track $index){
+      <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
+        <td class="py-3 px-4"> {{$index}} </td>
+        <td class="py-3 px-4"> {{data.codeMachine}} </td>
+        <td class="py-3 px-4"> {{data.typeM}} </td>
+        <td class="text-center">
+          <i class="fas fa-rotate-right update-icon"
+          data-bs-toggle="modal" data-bs-target="#updateModal"
+          (click)="getMachine(data.codeMachine)" style="color: white;"></i>
+
+          <i class="fas fa-trash delete-icon ms-2"
+           style="color: white; cursor: pointer;"
+            (click)="deleteMachine(data.codeMachine)">
+          </i>
+
+        </td>
+      </tr>
+    }@empty{
+      <h1 class="text-danger text-center"> No data founded </h1>
+    }
+    </tbody>
+  </table>
+</div>
+
+
+
+
+<!-- modal ajout-->
+
+<div class="modal fade" id="inventoryModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Add User</h5>
+        <button type="button"  #closemodal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="machineForm">
+
+          <div class="mb-3">
+            <label for="codeMachine" class="form-label">Code Machine:</label>
+            <input type="text" formControlName="codeMachine" name="codeMachine" id="codeMachine" class="form-control" placeholder="codeMachine">
+          </div>
+          <div class="mb-3">
+            <label for="typeM" class="form-label">Type MAchine:</label>
+            <input type="text" formControlName="typeM" name="typeM" id="typeM" class="form-control" placeholder="typeM">
+          </div>
+
+          <button  (click)="onSubmit()" class="btn btn-success w-100">ADD</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- modal update-->
+
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Update Machine</h5>
+        <button type="button"  #closemodal class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateMachineForm">
+
+          <div class="mb-3">
+            <label for="codeMachine" class="form-label">Code Machine:</label>
+            <input type="text" formControlName="codeMachine" name="codeMachine" id="codeMachine" class="form-control" placeholder="codeMachine">
+          </div>
+          <div class="mb-3">
+            <label for="typeM" class="form-label">Type MAchine:</label>
+            <input type="text" formControlName="typeM" name="typeM" id="typeM" class="form-control" placeholder="typeM">
+          </div>
+
+          <button  (click)="updateMachine()" class="btn btn-success w-100">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

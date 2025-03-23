@@ -218,12 +218,6 @@ export class CardsComponent implements OnInit {
     this.isLoading = true;
     this.message = '';
 
-
-
-
-
-
-
     this.wireconsumptionservice.updateWireConsumption(this.addForm.value).subscribe({
       next: (response) => {
         this.message = 'Mise à jour réussie !';

@@ -26,14 +26,16 @@
         <td class="py-3 px-4"> {{data.role}} </td>
         <td class="py-3 px-4"> {{data.plant_name}} </td>
         <td class="text-center">
-          <i class="fas fa-rotate-right update-icon" style="color: white;"></i>
-          
-          <i class="fas fa-trash delete-icon ms-2" 
-           style="color: white; cursor: pointer;" 
-            (click)="deleteUser(data.id)" ></i>
-      
+          <i class="fas fa-rotate-right update-icon"
+           (click)="getUser(data.id)" style="color: white;"
+           data-bs-toggle="modal" data-bs-target="#updateuserModal"></i>
+          <i class="fas fa-trash delete-icon ms-2"
+           style="color: white; cursor: pointer;"
+            (click)="deleteUser(data.id)">
+          </i>
+
         </td>
-      </tr> 
+      </tr>
     }@empty{
       <h1 class="text-danger text-center"> No data founded </h1>
     }
@@ -72,16 +74,16 @@
 
           <div class="mb-3">
             <label for="role" class="form-label">Role:</label>
-            <select formControlName="role" name="role" id="role" class="form-control form-select">
+            <select formControlName="role" name="role" id="role" class="form-control form-select" (change)="onRoleChange($event)">
               <option value="" selected disabled>-- Sélectionner le rôle --</option>
               <option value="Admin">Admin</option>
               <option value="Plant">Plant</option>
             </select>
           </div>
 
-          <div class="mb-3">
+          <div class="mb-3"  *ngIf="selectedRole === 'Plant'">
             <label for="plant" class="form-label">Plant:</label>
-            <select formControlName="plant_name" name="plant_name" id="plant_name" class="form-select">
+            <select   formControlName="plant_name" name="plant_name" id="plant_name" class="form-select">
               <option value="" selected disabled>-- Sélectionner le Plant --</option>
               @for(plant of plants ; track $index){
               <option [value]="plant.Plant">
@@ -93,13 +95,70 @@
             </select>
           </div>
 
-          <button  (click)="onSubmit()" class="btn btn-success w-100" [disabled]="userForm.invalid">ADD</button>
+          <button  (click)="onSubmit()" class="btn btn-success w-100">ADD</button>
         </form>
       </div>
     </div>
   </div>
 </div>
 
+
+
+<!-- modal update-->
+
+<div class="modal fade" id="updateuserModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Update User</h5>
+        <button type="button"  #closemodalupdate class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateUserForm">
+
+          <div class="mb-3">
+            <label for="Name" class="form-label">Name:</label>
+            <input type="text" formControlName="name" name="name" id="name" class="form-control" placeholder="Name">
+          </div>
+          <div class="mb-3">
+            <label for="Email" class="form-label">Email:</label>
+            <input type="email" formControlName="email" name="email" id="email" class="form-control" placeholder="Email">
+          </div>
+
+          <div class="mb-3">
+            <label for="Email" class="form-label">Password:</label>
+            <input type="password" formControlName="password" name="password" id="password" class="form-control" placeholder="password">
+          </div>
+
+          <div class="mb-3">
+            <label for="role" class="form-label">Role:</label>
+            <select formControlName="role" name="role" id="role" class="form-control form-select" (change)="onRoleChange($event)">
+              <option value="" selected disabled>-- Sélectionner le rôle --</option>
+              <option value="Admin">Admin</option>
+              <option value="Plant">Plant</option>
+            </select>
+          </div>
+
+          <div class="mb-3" >
+            <label for="plant" class="form-label">Plant:</label>
+            <select   formControlName="plant_name" name="plant_name" id="plant_name" class="form-select">
+              <option value="" selected disabled>-- Sélectionner le Plant --</option>
+              @for(plant of plants ; track $index){
+              <option [value]="plant.Plant">
+                {{ plant.Plant }}
+              </option>
+             }@empty {
+              <h1> NO PLATNS FOUNDED INYOUR LIST</h1>
+            }
+            </select>
+          </div>
+
+          <button  (click)="updateUser()" class="btn btn-success w-100">ADD</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

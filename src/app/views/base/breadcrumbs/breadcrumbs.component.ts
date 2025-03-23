@@ -9,6 +9,7 @@ import { SupplierService } from '../../../services/supplier.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Inventory } from '../../../models/inventory';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,26 +21,26 @@ import { Inventory } from '../../../models/inventory';
 })
 export class BreadcrumbsComponent implements OnInit  {
 
-  inventoryForm : FormGroup;
-  plants        : Plant[] = [];
-  suppliers     : Supplier[] = [];
-  errorMessage  : string = '';
-  listInventory : Inventory[] = []
-  inventory : any
-  selectedInventory: any = null;
-  inventoryItems: any[] = [];
-  editingItem: any = null;
-  originalValue: number = 0;
+  inventoryForm     : FormGroup;
+  plants            : Plant[] = [];
+  suppliers         : Supplier[] = [];
+  errorMessage      : string = '';
+  listInventory     : Inventory[] = []
+  inventory         : any
+  selectedInventory : any = null;
+  inventoryItems    : any[] = [];
+  editingItem       : any = null;
+  originalValue     : number = 0;
 
   @ViewChild('closemodal') closeModalButton: any;
 
 
 
   constructor(
-    // private fb: FormBuilder,
     private inventoryservice : InventoryService,
     private plantservice     : PlantService,
     private supplierservice  : SupplierService,
+    private toastr           : ToastrService
   ) {
 
     this.inventoryForm = new FormGroup({
@@ -65,44 +66,29 @@ export class BreadcrumbsComponent implements OnInit  {
 
     this.getAllInventory();
 
+
+
   }
 
   onSubmit() {
-
     this.inventory = this.inventory || {};
-
     this.inventory.plant = this.inventoryForm.value.plant;
     this.inventory.supplier = this.inventoryForm.value.supplier;
     this.inventory.initial_stock = this.inventoryForm.value.initial_stock;
     this.inventory.Year = this.inventoryForm.value.Year;
 
-
-    console.log('  inventory data = ' ,this.inventory)
-
       this.inventoryservice.addInventory(this.inventory).subscribe({
         next: (response) => {
           console.log('Inventory added successfully', response);
-          this.inventoryForm.reset({
-            // initial_stock: 0
-
-
-          });
-          this.errorMessage = '';
-
           this.getAllInventory();
-
           this.closeModalButton.nativeElement.click();
-
-
+          this.toastr.success('Inventory added successfully', 'Success');
         },
         error: (err) => {
           console.error('Error adding inventory', err);
-
           this.getAllInventory();
-
           this.closeModalButton.nativeElement.click();
-
-
+          this.toastr.error('Error adding inventory', 'Error');
         }
       });
 
@@ -122,12 +108,9 @@ export class BreadcrumbsComponent implements OnInit  {
 
 
   startEditing(item: any): void {
-    // Sauvegarder la valeur originale au cas où l'utilisateur annule
     this.originalValue = item.initial_stock;
     this.editingItem = item;
 
-    // Utiliser setTimeout pour donner le temps au DOM de se mettre à jour
-    // avant de mettre le focus sur l'input
     setTimeout(() => {
       const inputElement = document.getElementById('editStock') as HTMLInputElement;
       if (inputElement) {

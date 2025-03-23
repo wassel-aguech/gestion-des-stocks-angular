@@ -1,0 +1,51 @@
+
+button {
+  display: inline-block;
+  background: linear-gradient(45deg, #FFD700, #FFC107); /* Dégradé doré */
+  color: #1A1A1A; /* Noir légèrement adouci pour le texte */
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3); /* Ombre dorée */
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(45deg, #FFC107, #FFB300); /* Doré plus intense au hover */
+  box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6); /* Ombre plus lumineuse */
+}
+
+
+th{
+  background-color: gray;
+  border: 1px solid white;
+}
+td{
+  border: 1px solid white;
+}
+
+.update-icon, .delete-icon {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.update-icon:hover, .delete-icon:hover {
+  transform: scale(1.2);
+  color: #00e676;
+}
+
+.update-icon, .delete-icon {
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.update-icon:hover, .delete-icon:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 10px #00e676, 0 0 20px #00e676, 0 0 30px #00e676;
+}
+
+.update-icon:hover {
+  transform: rotate(360deg) scale(1.2);
+}
