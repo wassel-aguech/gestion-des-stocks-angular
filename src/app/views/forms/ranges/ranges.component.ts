@@ -72,7 +72,9 @@ export class RangesComponent implements OnInit {
 
       this.supplierservice.getSuppliers().subscribe(
         (data : any) => {
-          this.listSupplier = data;
+          this.listSupplier = data.suppliers;
+
+          console.log( " list supplier est ",data)
         },(error : any) => {
           console.log(error);
         }
@@ -139,19 +141,42 @@ export class RangesComponent implements OnInit {
       });
     }
 
+    // updateSupplier(): void {
+    //   if (!this.viewModeSupplier || !this.viewModeSupplier.supplierid) {
+    //     console.error("ID du fournisseur introuvable !");
+    //     return;
+    //   }
+
+    //   const updatedSupplier = {
+    //     supplierid: this.updateSupplierForm.value.supplierid
+    //   };
+
+    //   console.log("Updating Supplier:", this.viewModeSupplier.supplierid, updatedSupplier); // Debugging
+
+    //   this.supplierservice.updateSupplier(this.viewModeSupplier.supplierid, updatedSupplier).subscribe({
+    //     next: (response) => {
+    //       this.toastr.info('Fournisseur mis à jour avec succès', 'Succès');
+    //       this.getAllsupplier(); // Rafraîchir la liste
+    //     },
+    //     error: (error) => {
+    //       console.error("Erreur lors de la mise à jour du fournisseur:", error);
+    //     }
+    //   });
+    // }
+
+
     updateSupplier(): void {
-      if (!this.viewModeSupplier || !this.viewModeSupplier.supplierid) {
-        console.error("ID du fournisseur introuvable !");
+     
+      const newSupplierId = this.updateSupplierForm.value.supplierid;
+
+      if (!newSupplierId) {
+        console.error("Nouvel ID du fournisseur introuvable !");
         return;
       }
 
-      const updatedSupplier = {
-        supplierid: this.updateSupplierForm.value.supplierid
-      };
+      console.log("Updating Supplier:", this.viewModeSupplier.supplierid, "New ID:", newSupplierId); // Debugging
 
-      console.log("Updating Supplier:", this.viewModeSupplier.supplierid, updatedSupplier); // Debugging
-
-      this.supplierservice.updateSupplier(this.viewModeSupplier.supplierid, updatedSupplier).subscribe({
+      this.supplierservice.updateSupplier(this.viewModeSupplier.supplierid, newSupplierId).subscribe({
         next: (response) => {
           this.toastr.info('Fournisseur mis à jour avec succès', 'Succès');
           this.getAllsupplier(); // Rafraîchir la liste

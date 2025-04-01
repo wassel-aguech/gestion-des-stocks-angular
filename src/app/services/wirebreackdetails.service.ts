@@ -56,7 +56,7 @@ export class WirebreackdetailsService {
 
 //  Saisir les donneés manuelle
 
-   addWirebreackDetails(Wirebreackdetails: Wirebreackdetails): Observable<any> {
+   addWirebreackDetails(Wirebreackdetails: Wirebreackdetails): Observable<Wirebreackdetails> {
 
     const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders({
@@ -65,8 +65,7 @@ export class WirebreackdetailsService {
 
     });
 
-
-        return this.http.post(`${this.apiUrl2}/Addwirebreak`, Wirebreackdetails,{headers});
+        return this.http.post<Wirebreackdetails>(`${this.apiUrl2}/Addwirebreak`, Wirebreackdetails,{headers});
       }
 
 

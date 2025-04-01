@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { WirebreackdetailsService } from '../../../services/wirebreackdetails.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Wirebreackdetails } from '../../../models/wirebreackdetails';
@@ -12,6 +12,7 @@ import { WirebreaktypeService } from '../../../services/wirebreaktype.service';
 import { MachineService } from '../../../services/machine.service';
 import { WirebreakType } from '../../../models/wirebreaktype';
 import { Machine } from '../../../models/machine';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-accordions',
@@ -41,12 +42,15 @@ export class AccordionsComponent implements OnInit {
   machines : Machine[] = []
   wirebreakTypes : WirebreakType [] = []
 
+  @ViewChild('closemodal') closeModalButton: any;
+
 
   private wirebreackdetailsservice = inject(WirebreackdetailsService);
   private plantService  = inject(PlantService);
   private supplierService = inject(SupplierService);
   private machineService  = inject(MachineService);
   private wireBreakTypeService = inject(WirebreaktypeService);
+  private toastr = inject(ToastrService)
 
   wirenumbers : any
 
@@ -207,7 +211,9 @@ export class AccordionsComponent implements OnInit {
 
     this.wirebreackdetailsservice.addWirebreackDetails(this.wirebreackdetails).subscribe(
       (data : any)=>{
-        console.log("data medecin" , data)
+        console.log("data wiredetails" , data)
+        this.closeModalButton.nativeElement.click();
+        this.toastr.success(" wirebreak details addded  , success")
       },(error)=>{
         console.log("error insertion wirebreak")
       }

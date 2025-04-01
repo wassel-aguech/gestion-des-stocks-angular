@@ -55,9 +55,18 @@ export class SupplierService {
       }
 
 
-      updateSupplier(supplierid: any , supplierData : any): Observable<any> {
-        return this.http.put(`${this.apiUrl}/supplier/${supplierid}`, supplierData);
+      // updateSupplier(supplierid: any , supplierData : any): Observable<any> {
+      //   return this.http.put(`${this.apiUrl}/supplier/${supplierid}`, supplierData);
+      // }
+
+
+      updateSupplier(supplierId: string, newSupplierId: string): Observable<any> {
+        const body = {
+          new_supplierid: newSupplierId,
+        };
+        return this.http.put(`${this.apiUrl}/supplier/${supplierId}`, body);
       }
+
 
 
 }

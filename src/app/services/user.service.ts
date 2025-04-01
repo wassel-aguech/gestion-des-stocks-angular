@@ -18,7 +18,7 @@ export class UserService {
 
 
   getUsers(): Observable<any[]> {
- 
+
     return this.http.get<any[]>(`${this.apiUrl}/users`)
       .pipe(
         tap(users => console.log('Users fetched successfully:', users)),
@@ -42,8 +42,7 @@ export class UserService {
 
 
   createUser(userData: any): Observable<any> {
-  
-    
+
     return this.http.post<any>(`${this.apiUrl}/creatusers`, userData )
       .pipe(
         tap(response => console.log('Utilisateur ajouté avec succès')),
@@ -55,8 +54,8 @@ export class UserService {
   }
 
   updateUser(userId: string, userData: any): Observable<any> {
-  
-    
+
+
     return this.http.put<any>(`${this.apiUrl}/users/${userId}`, userData)
       .pipe(
         tap(response => console.log('Utilisateur mis à jour avec succès')),
@@ -68,7 +67,7 @@ export class UserService {
   }
 
   deleteUser(userId: string): Observable<any> {
-    
+
     return this.http.delete<any>(`${this.apiUrl}/users/${userId}`, { headers: this.getAuthHeaders() })
       .pipe(
         tap(response => console.log('Utilisateur supprimé avec succès')),

@@ -60,4 +60,6 @@ export class MachineService {
       return this.http.put(`${this.apiUrl2}/machine/${codeMachine}`, body);
     }
 
+
+
 }
