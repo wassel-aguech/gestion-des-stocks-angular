@@ -165,7 +165,7 @@
             <label for="supplier" class="form-label">Supplier:</label>
             <select formControlName="Supplier" name="Supplier" id="Supplier" class="form-select">
               <option value="" disabled selected>Choisir un supplier </option>
-              @for(supplier of suppliers ;track $index){
+              @for(supplier of listsuppliers ;track $index){
               <option [value]="supplier.supplierid">
                 {{ supplier.supplierid }}
               </option>

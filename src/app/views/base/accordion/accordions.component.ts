@@ -38,7 +38,7 @@ export class AccordionsComponent implements OnInit {
   listwiredetails : Wirebreackdetails[] = []
   wireBreakData: any = {}
   plants : Plant[] = []
-  suppliers : Supplier [] = []
+  listsuppliers : Supplier[]=[]
   machines : Machine[] = []
   wirebreakTypes : WirebreakType [] = []
 
@@ -94,11 +94,6 @@ export class AccordionsComponent implements OnInit {
       error: (err) => console.error('Error  plants', err)
     });
 
-    this.supplierService.getSuppliers().subscribe({
-      next: (suppliers) => this.suppliers = suppliers,
-      error: (err) => console.error('Error  suppliers', err)
-    });
-
     this.machineService.getMachines().subscribe({
       next: (res) => this.machines = res,
       error: (err) => console.error('Error  machine', err)
@@ -107,6 +102,21 @@ export class AccordionsComponent implements OnInit {
     this.wireBreakTypeService.getWireBreakTypes().subscribe({
       next: (res) => this.wirebreakTypes = res,
       error: (err) => console.error('Error  supwiretype', err)
+    });
+
+    this.getallsupplers()
+  }
+
+
+  getallsupplers(){
+    this.supplierService.getSuppliers().subscribe({
+      next: (data) =>{
+        this.listsuppliers = data,
+        console.log("list supplier" , data)
+
+      },
+
+      error: (err) => console.error('Error  suppliers', err)
     });
   }
 

@@ -12,6 +12,7 @@ export class SupplierService {
   constructor() { }
 
   private apiUrl = 'http://127.0.0.1:5000/api/supplier';
+  private apiUrl2 = 'http://127.0.0.1:5000/api';
 
 
   private http = inject(HttpClient);
@@ -20,7 +21,7 @@ export class SupplierService {
 
 
   getSuppliers(): Observable<Supplier[]> {
-    return this.http.get<Supplier[]>(`${this.apiUrl}/suppliers`);
+    return this.http.get<Supplier[]>(`${this.apiUrl2}/suppliers`);
   }
 
 
