@@ -22,14 +22,25 @@
         <td class="py-3 px-4"> {{data.typeB}} </td>
         <td class="text-center">
 
-          <i class="fas fa-rotate-right update-icon"
+          <!-- <i class="fas fa-rotate-right update-icon"
           data-bs-toggle="modal" data-bs-target="#updateModal"
             (click)="getWireBreakType(data.wirebreaktype)" style="color: white;"></i>
 
           <i class="fas fa-trash delete-icon ms-2"
            style="color: white; cursor: pointer;"
             (click)="deleteWireBreakType(data.wirebreaktype)">
+          </i> -->
+
+          <i class="fas fa-lock active-icon ms-2"
+          style="color: white; cursor: pointer;"
+           (click)="deactivateWireBreakType(data.wirebreaktype)">
           </i>
+
+       <i class="fas fa-lock-open desactive-icon ms-3"
+          style="color: white; cursor: pointer;"
+          (click)="activateWireBreakType(data.wirebreaktype)">
+        </i>
+
 
         </td>
       </tr>

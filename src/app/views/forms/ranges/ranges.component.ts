@@ -19,6 +19,8 @@ export class RangesComponent implements OnInit {
     supplierForm : FormGroup;
     updateSupplierForm : FormGroup;
     listSupplier : Supplier[] = [];
+    suppliers: any[] = []; // Liste des fournisseurs
+
     supplier      : Supplier = new Supplier();
     viewModeSupplier : Supplier = new Supplier();
 
@@ -72,7 +74,7 @@ export class RangesComponent implements OnInit {
 
       this.supplierservice.getSuppliers().subscribe(
         (data : any) => {
-          this.listSupplier = data.suppliers;
+          this.listSupplier = data;
 
           console.log( " list supplier est ",data)
         },(error : any) => {
@@ -141,32 +143,9 @@ export class RangesComponent implements OnInit {
       });
     }
 
-    // updateSupplier(): void {
-    //   if (!this.viewModeSupplier || !this.viewModeSupplier.supplierid) {
-    //     console.error("ID du fournisseur introuvable !");
-    //     return;
-    //   }
-
-    //   const updatedSupplier = {
-    //     supplierid: this.updateSupplierForm.value.supplierid
-    //   };
-
-    //   console.log("Updating Supplier:", this.viewModeSupplier.supplierid, updatedSupplier); // Debugging
-
-    //   this.supplierservice.updateSupplier(this.viewModeSupplier.supplierid, updatedSupplier).subscribe({
-    //     next: (response) => {
-    //       this.toastr.info('Fournisseur mis à jour avec succès', 'Succès');
-    //       this.getAllsupplier(); // Rafraîchir la liste
-    //     },
-    //     error: (error) => {
-    //       console.error("Erreur lors de la mise à jour du fournisseur:", error);
-    //     }
-    //   });
-    // }
-
 
     updateSupplier(): void {
-     
+
       const newSupplierId = this.updateSupplierForm.value.supplierid;
 
       if (!newSupplierId) {
@@ -174,15 +153,53 @@ export class RangesComponent implements OnInit {
         return;
       }
 
-      console.log("Updating Supplier:", this.viewModeSupplier.supplierid, "New ID:", newSupplierId); // Debugging
+      console.log("Updating Supplier:", this.viewModeSupplier.supplierid, "New ID:", newSupplierId);
 
       this.supplierservice.updateSupplier(this.viewModeSupplier.supplierid, newSupplierId).subscribe({
         next: (response) => {
           this.toastr.info('Fournisseur mis à jour avec succès', 'Succès');
-          this.getAllsupplier(); // Rafraîchir la liste
+          this.getAllsupplier();
         },
         error: (error) => {
           console.error("Erreur lors de la mise à jour du fournisseur:", error);
+        }
+      });
+    }
+
+
+
+    deactivateSupplier(supplierId: any) {
+      this.supplierservice.deactivateSupplier(supplierId).subscribe({
+        next: (response) => {
+          console.log('Fournisseur désactivé :', response);
+          const supplier = this.suppliers.find(s => s.supplierid === supplierId);
+          if (supplier) {
+            supplier.is_active = false;
+          }
+          this.toastr.warning('Supplier Desactivee', 'Success');
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de la désactivation', err);
+        }
+      });
+    }
+
+
+
+    activateSupplier(supplierid: string) {
+      this.supplierservice.activateSupplier(supplierid).subscribe({
+        next: (response) => {
+          console.log('Fournisseur activé avec succès :', response);
+          const supplier = this.suppliers.find(s => s.supplierid === supplierid);
+          if (supplier) {
+            supplier.is_active = true;
+          }
+          this.toastr.info('Supplier Active', 'Success');
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'activation du fournisseur', err);
         }
       });
     }

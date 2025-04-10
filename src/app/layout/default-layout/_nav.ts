@@ -35,7 +35,7 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
-        name: 'Gestion Uploads',
+        name: 'WireBreakDetails Uploads',
         url: '/base/accordion',
         icon: 'nav-icon-bullet'
       },
@@ -50,17 +50,17 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Carousel',
+        name: 'Wireconsumption Uploads',
         url: '/base/carousel',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Collapse',
+        name: 'WireBreakDetails',
         url: '/base/collapse',
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'List Group',
+        name: 'WireConsumption',
         url: '/base/list-group',
         icon: 'nav-icon-bullet'
       },

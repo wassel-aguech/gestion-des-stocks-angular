@@ -20,6 +20,8 @@ export class SelectComponent {
     listMachines     : Machine[] = [];
     machine : Machine = new Machine();
     viewModeMachine : Machine = new Machine();
+    machines: any[] = [];
+
 
 
 
@@ -176,6 +178,43 @@ export class SelectComponent {
 
 
 
+
+    deactivateMachine(codeMachine: any) {
+      this.machineService.deactivateMachine(codeMachine).subscribe({
+        next: (response) => {
+          console.log('Machine désactivée avec succès :', response);
+          const machineRecord = this.machines.find(machine => machine.codeMachine === codeMachine);
+          if (machineRecord) {
+            machineRecord.is_active = false;
+          }
+          this.toastr.warning('Machine Desactivee', 'Success');
+
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de la désactivation de la machine', err);
+        }
+      });
+    }
+
+
+
+    activateMachine(code: any) {
+      this.machineService.activateMachine(code).subscribe({
+        next: (response) => {
+          console.log('Machine activée avec succès', response);
+          const machine = this.machines.find(m => m.code === code);
+          if (machine) {
+            machine.is_active = true;
+          }
+          this.toastr.info('Machine Activee', 'Success');
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'activation de la machine', err);
+        }
+      });
+    }
 
 
 

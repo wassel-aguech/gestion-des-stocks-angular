@@ -58,6 +58,17 @@ export class WirebreaktypeService {
               new_typeB: newTypeB,
             };
             return this.http.put(`${this.apiUrl2}/wirebreaktype/${wirebreaktype}`, body);
+
+          }
+
+
+
+          deactivateWireBreakType(wirebreaktype: any) {
+            return this.http.put(`${this.apiUrl2}/${wirebreaktype}/desactivate`, {});
+          }
+
+          activateWireBreakType(wirebreaktype: any) {
+            return this.http.put(`${this.apiUrl2}/${wirebreaktype}/activate`, {});
           }
 
 

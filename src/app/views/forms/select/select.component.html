@@ -23,14 +23,27 @@
         <td class="py-3 px-4"> {{data.codeMachine}} </td>
         <td class="py-3 px-4"> {{data.typeM}} </td>
         <td class="text-center">
-          <i class="fas fa-rotate-right update-icon"
+          <!-- <i class="fas fa-rotate-right update-icon"
           data-bs-toggle="modal" data-bs-target="#updateModal"
-          (click)="getMachine(data.codeMachine)" style="color: white;"></i>
+          (click)="getMachine(data.codeMachine)" style="color: white;">
+        </i> -->
 
-          <i class="fas fa-trash delete-icon ms-2"
+          <!-- <i class="fas fa-trash delete-icon ms-2"
            style="color: white; cursor: pointer;"
             (click)="deleteMachine(data.codeMachine)">
-          </i>
+          </i> -->
+
+          <i class="fas fa-lock active-icon ms-2"
+          style="color: white; cursor: pointer;"
+          (click)="deactivateMachine(data.codeMachine)">
+           </i>
+
+          <i class="fas fa-lock-open desactive-icon ms-3"
+            style="color: white; cursor: pointer;"
+            (click)="activateMachine(data.codeMachine)" >
+            </i>
+
+
 
         </td>
       </tr>

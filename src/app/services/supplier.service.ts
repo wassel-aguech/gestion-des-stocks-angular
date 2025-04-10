@@ -55,12 +55,6 @@ export class SupplierService {
         return this.http.get(`${this.apiUrl}/supplier/${supplierid}`);
       }
 
-
-      // updateSupplier(supplierid: any , supplierData : any): Observable<any> {
-      //   return this.http.put(`${this.apiUrl}/supplier/${supplierid}`, supplierData);
-      // }
-
-
       updateSupplier(supplierId: string, newSupplierId: string): Observable<any> {
         const body = {
           new_supplierid: newSupplierId,
@@ -69,5 +63,13 @@ export class SupplierService {
       }
 
 
+
+      deactivateSupplier(supplierId: any) {
+        return this.http.put(`${this.apiUrl}/${supplierId}/desactivate`, {});
+      }
+
+      activateSupplier(supplierId: any) {
+        return this.http.put(`${this.apiUrl}/${supplierId}/activate`, {});
+      }
 
 }

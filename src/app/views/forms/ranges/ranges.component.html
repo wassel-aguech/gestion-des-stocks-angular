@@ -21,14 +21,17 @@
         <td class="py-3 px-4"> {{data.supplierid}} </td>
         <td class="py-3 px-4"> {{data.supplierid}} </td>
         <td class="text-center">
-          <i class="fas fa-rotate-right update-icon"
-          data-bs-toggle="modal" data-bs-target="#updateModal"
-          (click)="getSupplier(data.supplierid)" style="color: white;"></i>
 
-          <i class="fas fa-trash delete-icon ms-2"
-           style="color: white; cursor: pointer;"
-            (click)="deleteSupplier(data.supplierid)">
+          <i class="fas fa-lock active-icon ms-2"
+          style="color: white; cursor: pointer;"
+          (click)="deactivateSupplier(data.supplierid)">
           </i>
+
+          <i class="fas fa-lock-open desactive-icon ms-3"
+          style="color: white; cursor: pointer;"
+          (click)="activateSupplier(data.supplierid)">
+           </i>
+
 
         </td>
       </tr>

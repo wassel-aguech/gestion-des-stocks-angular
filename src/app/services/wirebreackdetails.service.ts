@@ -71,6 +71,19 @@ export class WirebreackdetailsService {
 
 
 
+      getWireBreakDetails(): Observable<any> {
+        const token = localStorage.getItem('access_token');
+        const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+
+    });
+        return this.http.get<any>(`${this.apiUrl2}/wirebreakdetails`, { headers });
+      }
+
+
+
+
 
 
 

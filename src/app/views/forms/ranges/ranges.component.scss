@@ -28,24 +28,16 @@ td{
   border: 1px solid white;
 }
 
-.update-icon, .delete-icon {
+
+
+
+.desactive-icon , .active-icon{
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.update-icon:hover, .delete-icon:hover {
-  transform: scale(1.2);
-  color: #00e676;
-}
 
-.update-icon, .delete-icon {
-  transition: transform 0.3s ease, text-shadow 0.3s ease;
-}
-
-.update-icon:hover, .delete-icon:hover {
+.desactive-icon:hover, .active-icon:hover {
   transform: scale(1.2);
   text-shadow: 0 0 10px #00e676, 0 0 20px #00e676, 0 0 30px #00e676;
 }
 
-.update-icon:hover {
-  transform: rotate(360deg) scale(1.2);
-}

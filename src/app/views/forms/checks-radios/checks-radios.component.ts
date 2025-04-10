@@ -22,6 +22,8 @@ export class ChecksRadiosComponent {
     listWireBreakType    : WirebreakType[] = [];
     wireBreakType          : WirebreakType = new WirebreakType();
     viewModeWireBreakType : WirebreakType = new WirebreakType();
+    wirebreaktypes: any[] = []; // Liste des wirebreaktypes
+
 
 
 
@@ -172,6 +174,46 @@ export class ChecksRadiosComponent {
       });
     }
 
+
+
+
+
+
+    deactivateWireBreakType(wirebreaktype: any) {
+      this.wirebreaktypeservice.deactivateWireBreakType(wirebreaktype).subscribe({
+        next: (response) => {
+          console.log('WireBreakType désactivé :', response);
+          // Mets à jour l'état local
+          const wirebreaktypeRecord = this.wirebreaktypes.find(wb => wb.wirebreaktype === wirebreaktype);
+          if (wirebreaktypeRecord) {
+            wirebreaktypeRecord.is_active = false;
+          }
+
+          this.toastr.warning('Wirebreaktype Desactivee', 'Success');
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de la désactivation', err);
+        }
+      });
+    }
+
+    activateWireBreakType(code: string) {
+      this.wirebreaktypeservice.activateWireBreakType(code).subscribe({
+        next: (response) => {
+          console.log('WireBreakType activé avec succès', response);
+          const wireBreakType = this.wirebreaktypes.find(wb => wb.code === code);
+          if (wireBreakType) {
+            wireBreakType.is_active = true;
+          }
+          this.toastr.info('Wirebreaktype Activee', 'Success');
+
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'activation de WireBreakType', err);
+        }
+      });
+    }
 
 
 

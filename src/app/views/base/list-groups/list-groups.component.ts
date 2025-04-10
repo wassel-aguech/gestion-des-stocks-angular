@@ -1,52 +1,72 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { DocsExampleComponent } from '@docs-components/public-api';
-import { RowComponent, ColComponent, TextColorDirective, CardComponent, CardHeaderComponent, CardBodyComponent, ListGroupDirective, ListGroupItemDirective, BadgeComponent, FormDirective, FormCheckComponent, FormCheckInputDirective, FormCheckLabelDirective, ButtonDirective } from '@coreui/angular';
+import { CommonModule } from '@angular/common';
+import { WireconsumptionService } from '../../../services/wireconsumption.service';
 
 @Component({
     selector: 'app-list-groups',
+    standalone: true,
     templateUrl: './list-groups.component.html',
     styleUrls: ['./list-groups.component.scss'],
-    imports: [RowComponent, ColComponent, TextColorDirective, CardComponent, CardHeaderComponent, CardBodyComponent, DocsExampleComponent, ListGroupDirective, ListGroupItemDirective, BadgeComponent, ReactiveFormsModule, FormDirective, FormCheckComponent, FormCheckInputDirective, FormCheckLabelDirective, ButtonDirective]
+    imports: [CommonModule,ReactiveFormsModule]
 })
 export class ListGroupsComponent {
 
-  constructor(
-    private formBuilder: UntypedFormBuilder
-  ) { }
 
-  readonly breakpoints: (string | boolean)[] = [true, 'sm', 'md', 'lg', 'xl', 'xxl'];
-  readonly colors: string[] = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
+  wireConsumptionData: any[] = [];
+  pageSize: number = 10;
+  currentPage: number = 1;
+  totalElements: number = 0
+  totalPages: number = 0;
+  pagedData: any[] = [];
+  pageNumbers: number[] = [];
 
-  readonly checkBoxes = this.formBuilder.group({
-    one: false,
-    two: false,
-    three: true,
-    four: true,
-    five: { value: false, disabled: true }
-  });
+  constructor(private wireconsumptionService: WireconsumptionService) {}
 
-  readonly sampleList: string[] = [
-    'Cras justo odio',
-    'Dapibus ac facilisis in',
-    'Morbi leo risus',
-    'Porta ac consectetur ac',
-    'Vestibulum at eros'
-  ];
-
-  setValue(controlName: string) {
-    const prevValue = this.checkBoxes.get(controlName)?.value;
-    const value = this.checkBoxes.getRawValue();
-    value[controlName] = !prevValue;
-    this.checkBoxes.setValue(value);
+  ngOnInit(): void {
+    this.getWireConsumption();
   }
 
-  logValue() {
-    console.log(this.checkBoxes.value);
-    this.checkBoxes.reset();
+  getWireConsumption(): void {
+    this.wireconsumptionService.getWireConsumption().subscribe({
+      next: (data) => {
+        this.wireConsumptionData = data;
+        this.totalElements = data.length;
+        this.totalPages = Math.ceil(this.totalElements / this.pageSize);
+        this.setPageData();
+        this.updatePageNumbers();
+      },
+      error: (err) => {
+        console.error('Erreur:', err);
+      },
+    });
   }
 
-  getValue(controlName: string) {
-    return this.checkBoxes.get(controlName);
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.setPageData();
+    this.updatePageNumbers();
   }
+
+  setPageData(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.pagedData = this.wireConsumptionData.slice(startIndex, endIndex);
+  }
+
+  updatePageNumbers(): void {
+    const range = 2;
+    let start = Math.max(this.currentPage - range, 1);
+    let end = Math.min(this.currentPage + range, this.totalPages);
+
+    this.pageNumbers = [];
+    for (let i = start; i <= end; i++) {
+      this.pageNumbers.push(i);
+    }
+  }
+
+
+
+
+
 }

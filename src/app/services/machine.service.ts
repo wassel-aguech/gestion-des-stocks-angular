@@ -62,4 +62,14 @@ export class MachineService {
 
 
 
+    deactivateMachine(codeMachine: string) {
+      return this.http.put(`${this.apiUrl2}/${codeMachine}/desactivate`, {});
+    }
+
+    activateMachine(codeMachine: string) {
+      return this.http.put(`${this.apiUrl2}/machine/${codeMachine}/activate`, {});
+    }
+
+
+
 }
