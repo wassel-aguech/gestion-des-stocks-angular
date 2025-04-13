@@ -21,7 +21,7 @@ export class SupplierService {
 
 
   getSuppliers(): Observable<Supplier[]> {
-    return this.http.get<Supplier[]>(`${this.apiUrl2}/suppliers`);
+    return this.http.get<Supplier[]>(`${this.apiUrl}/suppliers`);
   }
 
 
@@ -70,6 +70,22 @@ export class SupplierService {
 
       activateSupplier(supplierId: any) {
         return this.http.put(`${this.apiUrl}/${supplierId}/activate`, {});
+      }
+
+
+
+      updateSupplierTarget(supplierid: any, target: any): Observable<Supplier> {
+        const body = { target };
+
+        return this.http.put<Supplier>(`${this.apiUrl}/${supplierid}/updatetarget`, body);
+      }
+
+
+      updateSupplierTarget2(supplierid: string, target: string): Observable<{ supplier: Supplier; error: string | null }> {
+        return this.http.put<{ supplier: Supplier; error: string | null }>(
+          `${this.apiUrl}/${supplierid}/updatetarget`,
+          { target }
+        );
       }
 
 }

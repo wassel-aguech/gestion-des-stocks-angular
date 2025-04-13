@@ -5,6 +5,9 @@ import { CommonModule } from '@angular/common';
 import { AuthserviceService } from '../../../services/auth.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransactionService } from '../../../services/transaction.service';
+import { PlantService } from '../../../services/plant.service';
+import { Plant } from '../../../models/plant';
+import { SupplierService } from '../../../services/supplier.service';
 
 
 
@@ -22,10 +25,14 @@ export class CardsComponent implements OnInit {
   id! : number
   userRole: string | null = null;
   userPlant: string | null = null;
+  plants : Plant[] = []
 
   wireconsumptionservice = inject(WireconsumptionService)
   authService = inject(AuthserviceService)
   transactionService = inject(TransactionService)
+  plantService = inject(PlantService)
+  supplierService = inject(SupplierService)
+  listsuppliers : any[] = []
 
   addForm : FormGroup
 
@@ -55,6 +62,14 @@ export class CardsComponent implements OnInit {
   yearB!:any
 
 
+  visiblePages: number[] = [];
+
+
+
+
+
+
+
   constructor(){
 
        this.addForm = new FormGroup({
@@ -78,11 +93,17 @@ export class CardsComponent implements OnInit {
 
 
 
-
-
-
-
   ngOnInit(): void {
+
+    this.plantService.getPlants().subscribe({
+      next: (plants) => this.plants = plants,
+      error: (err) => console.error('Error  plants', err)
+    });
+
+    this.supplierService.getSuppliers().subscribe({
+      next: (data) => this.listsuppliers = data,
+      error: (err) => console.error('Error  supplier', err)
+    });
 
     this.totalPages = Math.ceil(this.data.length / this.pageSize);
     this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
@@ -92,16 +113,33 @@ export class CardsComponent implements OnInit {
     this.userRole = this.authService.getRole();
     console.log("role est ", this.userRole )
 
+
   }
 
 
-   paginate() {
-    if (this.listWireConsumption && this.listWireConsumption.length > 0) {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      this.paginatedData = this.listWireConsumption.slice(start, end);
+  paginate() {
+    const filtered = this.filteredData();
+    this.totalPages = Math.ceil(filtered.length / this.pageSize);
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.paginatedData = filtered.slice(start, end);
+
+    this.updateVisiblePages();
+  }
+
+  updateVisiblePages() {
+    const delta = 2;
+    let startPage = Math.max(1, this.currentPage - delta);
+    let endPage = Math.min(this.totalPages, this.currentPage + delta);
+
+    this.visiblePages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      this.visiblePages.push(i);
     }
   }
+
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
@@ -135,6 +173,35 @@ export class CardsComponent implements OnInit {
       }
     });
   }
+
+
+  search = {
+    Plant: '',
+    Supplier: '',
+    Week_Number: null,
+    yearB: null
+  };
+
+  filteredData(): any[] {
+    return this.listWireConsumption.filter((item: { Plant: string; Supplier: string; Week_Number: any; yearB: any; }) =>
+      (!this.search.Plant || item.Plant.toLowerCase().includes(this.search.Plant.toLowerCase())) &&
+      (!this.search.Supplier || item.Supplier.toLowerCase().includes(this.search.Supplier.toLowerCase())) &&
+      (!this.search.Week_Number || item.Week_Number === this.search.Week_Number) &&
+      (!this.search.yearB || item.yearB === this.search.yearB)
+    );
+  }
+
+  clearFilter() {
+    this.search = {
+      Plant: '',
+      Supplier: '',
+      Week_Number: null,
+      yearB: null
+    };
+    this.currentPage = 1;
+    this.paginate();
+  }
+
 
 
   // remplir wire transuction

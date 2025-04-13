@@ -19,6 +19,34 @@
 
 </div>
 
+<!--  search section-->
+<div class="search-form mt-2 d-flex">
+
+    <select [(ngModel)]="search.Plant" (ngModelChange)="paginate()"  id="plant">
+      <option value=""> plants</option>
+      <option *ngFor="let plant of plants" [value]="plant.Plant">
+        {{ plant.Plant }}
+      </option>
+    </select>
+
+
+    <select [(ngModel)]="search.Supplier" (ngModelChange)="paginate()" id="supplier">
+      <option value=""> suppliers</option>
+      <option *ngFor="let supplier of listsuppliers" [value]="supplier.supplierid">
+        {{ supplier.supplierid }}
+      </option>
+    </select>
+
+
+
+  <!-- <input type="text" placeholder="Supplier" [(ngModel)]="search.Supplier" (ngModelChange)="paginate()"> -->
+  <input type="number" placeholder="Week Number" [(ngModel)]="search.Week_Number" (ngModelChange)="paginate()">
+  <input type="number" placeholder="Year" [(ngModel)]="search.yearB" (ngModelChange)="paginate()">
+  <i class=" btn btn-sm mb-1 ms-1 btn-danger btnresetfilter" (click)="clearFilter()">Reset</i>
+
+</div>
+<!--   End search section-->
+
 
 <div class="p-0 m-0 mt-2">
   <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900 text-white shadow-lg w-100">
@@ -66,21 +94,19 @@
   </table>
 
 
-
-
-
-  <!-- Menu de pagination sous le tableau -->
-  <div class="pagination-container text-center mt-4 w-50  mx-auto">
-    <ul class="pagination justify-content-center" style="width: 50%; margin: 0 auto;">
+  <div class="pagination-container text-center mt-4 w-50 mx-auto">
+    <ul class="pagination justify-content-center flex-wrap">
       <li class="page-item" [class.disabled]="currentPage === 1">
         <a class="page-link" href="javascript:void(0)" (click)="changePage(1)">First</a>
       </li>
       <li class="page-item" [class.disabled]="currentPage === 1">
         <a class="page-link" href="javascript:void(0)" (click)="changePage(currentPage - 1)">Previous</a>
       </li>
-      <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page">
+
+      <li *ngFor="let page of visiblePages" class="page-item" [class.active]="currentPage === page">
         <a class="page-link" href="javascript:void(0)" (click)="changePage(page)">{{ page }}</a>
       </li>
+
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <a class="page-link" href="javascript:void(0)" (click)="changePage(currentPage + 1)">Next</a>
       </li>
@@ -89,6 +115,7 @@
       </li>
     </ul>
   </div>
+
 
 </div>
 

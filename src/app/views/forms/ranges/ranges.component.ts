@@ -19,7 +19,7 @@ export class RangesComponent implements OnInit {
     supplierForm : FormGroup;
     updateSupplierForm : FormGroup;
     listSupplier : Supplier[] = [];
-    suppliers: any[] = []; // Liste des fournisseurs
+    suppliers: any[] = [];
 
     supplier      : Supplier = new Supplier();
     viewModeSupplier : Supplier = new Supplier();
@@ -33,10 +33,14 @@ export class RangesComponent implements OnInit {
 
       this.supplierForm = new FormGroup({
         supplierid  : new FormControl('', Validators.required),
+        target     : new FormControl('', Validators.required),
+
       })
 
       this.updateSupplierForm = new FormGroup({
         supplierid  : new FormControl('', Validators.required),
+        target     : new FormControl('', Validators.required),
+
       })
 
 
@@ -48,10 +52,10 @@ export class RangesComponent implements OnInit {
 
 
     onSubmit() {
-
       this.supplier = this.supplier || {};
       this.supplier.supplierid = this.supplierForm.value.supplierid;
-      console.log('  machine data = ' ,this.supplier)
+      this.supplier.target = this.supplierForm.value.target;
+      console.log('  supplier data = ' ,this.supplier)
 
         this.supplierservice.createSupplier(this.supplier).subscribe({
           next: (response) => {
@@ -125,46 +129,87 @@ export class RangesComponent implements OnInit {
 
 
 
-  getSupplier(supplierid:any )
-  {
+  // getSupplier(supplierid:any )
+  // {
 
-      this.supplierservice.getSupplierById(supplierid).subscribe(
-        (res : any)=>{
-          this.viewModeSupplier = res
+  //     this.supplierservice.getSupplierById(supplierid).subscribe(
+  //       (res : any)=>{
+  //         this.viewModeSupplier = res
 
-          console.log("  supplier info ." , res)
-      },error=>{
-        console.error(error)
-      },()=>{
+  //         console.log("  supplier info ." , res)
+  //     },error=>{
+  //       console.error(error)
+  //     },()=>{
 
+  //       this.updateSupplierForm.get("supplierid")?.setValue(this.viewModeSupplier.supplierid);
+  //       this.updateSupplierForm.get("target")?.setValue(this.viewModeSupplier.target);
+
+  //       this.updateSupplierForm.updateValueAndValidity()
+  //     });
+  //   }
+  getSupplier(supplierid: any): void {
+    this.supplierservice.getSupplierById(supplierid).subscribe(
+      (res: any) => {
+        this.viewModeSupplier = res;
+      },
+      (error) => {
+        console.error(error);
+      },
+      () => {
         this.updateSupplierForm.get("supplierid")?.setValue(this.viewModeSupplier.supplierid);
-
-        this.updateSupplierForm.updateValueAndValidity()
-      });
-    }
-
-
-    updateSupplier(): void {
-
-      const newSupplierId = this.updateSupplierForm.value.supplierid;
-
-      if (!newSupplierId) {
-        console.error("Nouvel ID du fournisseur introuvable !");
-        return;
+        this.updateSupplierForm.get("target")?.setValue(this.viewModeSupplier.target);
+        this.updateSupplierForm.updateValueAndValidity();
       }
+    );
+  }
 
-      console.log("Updating Supplier:", this.viewModeSupplier.supplierid, "New ID:", newSupplierId);
 
-      this.supplierservice.updateSupplier(this.viewModeSupplier.supplierid, newSupplierId).subscribe({
-        next: (response) => {
-          this.toastr.info('Fournisseur mis à jour avec succès', 'Succès');
-          this.getAllsupplier();
-        },
-        error: (error) => {
-          console.error("Erreur lors de la mise à jour du fournisseur:", error);
-        }
-      });
+
+  updateSupplierTarget(): void {
+    const supplierid = this.updateSupplierForm.value.supplierid;
+    const target = this.updateSupplierForm.value.target;
+
+    if (!supplierid || target === null) {
+      console.error("Fournisseur ou target manquant !");
+      return;
     }
+
+    this.supplierservice.updateSupplierTarget2(supplierid, target).subscribe({
+      next: (response) => {
+        this.toastr.success('Target mis à jour avec succès', 'Succès');
+        this.getAllsupplier();
+      },
+      error: (error) => {
+        console.error("Erreur lors de la mise à jour du target :", error);
+        this.toastr.error('Échec de la mise à jour du target', 'Erreur');
+      }
+    });
+  }
+
+
+
+
+    // updateSupplier(): void {
+
+    //   const newSupplierId = this.updateSupplierForm.value.supplierid;
+
+    //   if (!newSupplierId) {
+    //     console.error("Nouvel ID du fournisseur introuvable !");
+    //     return;
+    //   }
+
+    //   console.log("Updating Supplier:", this.viewModeSupplier.supplierid, "New ID:", newSupplierId);
+
+    //   this.supplierservice.updateSupplier(this.viewModeSupplier.supplierid, newSupplierId).subscribe({
+    //     next: (response) => {
+    //       this.toastr.info('Fournisseur mis à jour avec succès', 'Succès');
+    //       this.getAllsupplier();
+    //     },
+    //     error: (error) => {
+    //       console.error("Erreur lors de la mise à jour du fournisseur:", error);
+    //     }
+    //   });
+    // }
 
 
 

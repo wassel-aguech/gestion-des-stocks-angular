@@ -10,16 +10,19 @@
       <tr>
         <th class="py-3 px-4 text-left">#Index </th>
         <th class="py-3 px-4 text-left">SupplierID</th>
+        <th class="py-3 px-4 text-left">Target</th>
 
 
         <th>Action</th>
       </tr>
     </thead>
     <tbody class="text-center">
-      @for(data of listSupplier ; track data.supplierid){
+      @for(data of listSupplier ; track data.supplierid ; let index = $index){
       <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
+        <td class="py-3 px-4"> {{$index}} </td>
         <td class="py-3 px-4"> {{data.supplierid}} </td>
-        <td class="py-3 px-4"> {{data.supplierid}} </td>
+        <td class="py-3 px-4"> {{data.target}} </td>
+
         <td class="text-center">
 
           <i class="fas fa-lock active-icon ms-2"
@@ -31,6 +34,11 @@
           style="color: white; cursor: pointer;"
           (click)="activateSupplier(data.supplierid)">
            </i>
+
+
+           <i class="fas fa-rotate-right update-icon ms-3"
+           (click)="getSupplier(data.supplierid)" style="color: white;"
+           data-bs-toggle="modal" data-bs-target="#updateModal"></i>
 
 
         </td>
@@ -63,6 +71,12 @@
           </div>
 
 
+          <div class="mb-3">
+            <label for="supplierid" class="form-label">Target Supplier:</label>
+            <input type="number" formControlName="target" name="target" id="target" class="form-control" placeholder="target">
+          </div>
+
+
           <button  (click)="onSubmit()" class="btn btn-success w-100">ADD</button>
         </form>
       </div>
@@ -90,7 +104,14 @@
           </div>
 
 
-          <button  (click)="updateSupplier()" class="btn btn-success w-100">ADD</button>
+
+          <div class="mb-3">
+            <label for="supplierid" class="form-label">Target Supplier:</label>
+            <input type="number" formControlName="target" name="target" id="target" class="form-control" placeholder="target">
+          </div>
+
+
+          <button  (click)="updateSupplierTarget()" class="btn btn-success w-100">UPDATE</button>
         </form>
       </div>
     </div>
