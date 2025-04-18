@@ -2,7 +2,7 @@
 <c-sidebar
   #sidebar1="cSidebar"
   class="d-print-none sidebar sidebar-fixed border-end"
-  
+
   id="sidebar1"
   visible
   style="background-color: #000168;"
@@ -11,12 +11,28 @@
   <c-sidebar-header class="border-bottom">
     <c-sidebar-brand [routerLink]="[]">
       <img class="ms-5" src="../assets/images/sofii.png" width="100px" alt="">
-   
+
     </c-sidebar-brand>
   </c-sidebar-header>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <ng-scrollbar pointerEventsMethod="scrollbar" visibility="hover">
-    <c-sidebar-nav  [navItems]="navItems" dropdownMode="close" compact />
+    <c-sidebar-nav  [navItems]="filteredNavItems" dropdownMode="close" compact />
   </ng-scrollbar>
 
   @if (!sidebar1.narrow) {

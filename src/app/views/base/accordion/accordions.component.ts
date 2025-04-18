@@ -94,12 +94,12 @@ export class AccordionsComponent implements OnInit {
       error: (err) => console.error('Error  plants', err)
     });
 
-    this.machineService.getMachines().subscribe({
+    this.machineService.getMachinesActive().subscribe({
       next: (res) => this.machines = res,
       error: (err) => console.error('Error  machine', err)
     });
 
-    this.wireBreakTypeService.getWireBreakTypes().subscribe({
+    this.wireBreakTypeService.getWireBreakTypesActive().subscribe({
       next: (res) => this.wirebreakTypes = res,
       error: (err) => console.error('Error  supwiretype', err)
     });
@@ -179,6 +179,10 @@ export class AccordionsComponent implements OnInit {
         console.log('Validation réussie', response);
 
         this.temporaryData = [];
+
+
+
+
 
         setTimeout(() => {
           this.isSaveDataLoading = false;

@@ -1,5 +1,5 @@
 
-<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+<button class="custom-btn" data-bs-toggle="modal" data-bs-target="#inventoryModal">
   + Add machine
 </button>
 
@@ -33,7 +33,7 @@
             (click)="deleteMachine(data.codeMachine)">
           </i> -->
 
-          <i class="fas fa-lock active-icon ms-2"
+          <!-- <i class="fas fa-lock active-icon ms-2"
           style="color: white; cursor: pointer;"
           (click)="deactivateMachine(data.codeMachine)">
            </i>
@@ -41,7 +41,10 @@
           <i class="fas fa-lock-open desactive-icon ms-3"
             style="color: white; cursor: pointer;"
             (click)="activateMachine(data.codeMachine)" >
-            </i>
+            </i> -->
+
+            <i class="btn btn sm btn-danger" (click)="deactivateMachine(data.codeMachine)" >Desactive </i>
+            <i class="btn btn sm btn-success ms-3"  (click)="activateMachine(data.codeMachine)" > Activate</i>
 
 
 

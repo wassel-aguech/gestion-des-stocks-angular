@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 
-import { IconDirective } from '@coreui/icons-angular';
+
 import {
   ContainerComponent,
   ShadowOnScrollDirective,
@@ -17,6 +17,12 @@ import {
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
 import { navItems } from './_nav';
+import { AuthserviceService } from '../../services/auth.service';
+
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { SocketIoModule } from 'ngx-socket-io';
+
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -30,6 +36,7 @@ function isOverflown(element: HTMLElement) {
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss'],
   imports: [
+    CommonModule,
     SidebarComponent,
     SidebarHeaderComponent,
     SidebarBrandComponent,
@@ -43,9 +50,96 @@ function isOverflown(element: HTMLElement) {
     NgScrollbar,
     RouterOutlet,
     RouterLink,
-    ShadowOnScrollDirective
+    ShadowOnScrollDirective,
+    SocketIoModule
   ]
 })
 export class DefaultLayoutComponent {
   public navItems = [...navItems];
+
+  public filteredNavItems: any[] = [];
+
+
+
+
+
+
+
+    constructor(private authservice : AuthserviceService,
+      private toastr: ToastrService,
+
+    ) {
+
+    }
+
+
+
+    ngOnInit(): void {
+
+
+
+
+      const userRole = this.authservice.getRole()?.trim().toLowerCase() || '';
+      console.log('User role in sidebar:', userRole);
+
+      this.filteredNavItems = this.filterNavItems(this.navItems, userRole);
+
+
+
+  }
+
+
+
+
+      // filterNavItems(items: any[], role: any): any[] {
+      //   return items
+      //     .map(item => {
+      //       const filteredChildren = item.children ? this.filterNavItems(item.children, role) : [];
+
+      //       const isVisible = item.roles && item.roles.includes(role);
+
+      //       console.log(`Item: ${item.name}, Roles: ${item.roles}, Visible: ${isVisible}`);
+
+      //       if (isVisible || filteredChildren.length > 0) {
+      //         return { ...item, children: filteredChildren };
+      //       }
+      //       return null;
+      //     })
+      //     .filter(item => item !== null);
+      // filterNavItems(items: any[], role: string): any[] {
+      //   return items
+      //     .map(item => {
+      //       const filteredChildren = item.children ? this.filterNavItems(item.children, role) : [];
+
+      //       const isVisible = item.roles && item.roles.includes(role);
+      //       console.log(`Item: ${item.name}, Roles: ${item.roles}, Visible: ${isVisible}`);
+
+      //       if (isVisible || filteredChildren.length > 0) {
+      //         return { ...item, children: filteredChildren };
+      //       }
+      //       return null;
+      //     })
+      //     .filter(item => item !== null);
+      // }
+      // }
+
+      filterNavItems(items: any[], role: string): any[] {
+        return items
+          .map(item => {
+            const filteredChildren = item.children ? this.filterNavItems(item.children, role) : [];
+
+            // ✅ Gestion des items sans "roles"
+            const isVisible = !item.roles || item.roles.includes(role);
+           // console.log(`Item: ${item.name}, Roles: ${item.roles}, Visible: ${isVisible}`);
+
+            if (isVisible || filteredChildren.length > 0) {
+              return { ...item, children: filteredChildren };
+            }
+
+            return null;
+          })
+          .filter(item => item !== null);
+      }
+
+
 }

@@ -21,6 +21,10 @@ export class MachineService {
     return this.http.get<Machine[]>(`${this.apiUrl}/machines`);
   }
 
+  getMachinesActive(): Observable<Machine[]> {
+    return this.http.get<Machine[]>(`${this.apiUrl2}/machine/active`);
+  }
+
 
   createMachine(machineData: any): Observable<any> {
       return this.http.post<any>(`${this.apiUrl2}/machine`, machineData )

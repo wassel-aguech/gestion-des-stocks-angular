@@ -1,5 +1,5 @@
 
-<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+<button class="custom-btn" data-bs-toggle="modal" data-bs-target="#inventoryModal">
   + Add WireBreakType
 </button>
 
@@ -31,15 +31,18 @@
             (click)="deleteWireBreakType(data.wirebreaktype)">
           </i> -->
 
-          <i class="fas fa-lock active-icon ms-2"
+          <!-- <i class="fas fa-lock active-icon ms-2"
           style="color: white; cursor: pointer;"
            (click)="deactivateWireBreakType(data.wirebreaktype)">
-          </i>
+          </i> -->
+          <i class="btn btn sm btn-danger" (click)="deactivateWireBreakType(data.wirebreaktype)" >Desactive </i>
+          <i class="btn btn sm btn-success ms-3" (click)="activateWireBreakType(data.wirebreaktype)" > Activate</i>
 
-       <i class="fas fa-lock-open desactive-icon ms-3"
+
+       <!-- <i class="fas fa-lock-open desactive-icon ms-3"
           style="color: white; cursor: pointer;"
           (click)="activateWireBreakType(data.wirebreaktype)">
-        </i>
+        </i> -->
 
 
         </td>

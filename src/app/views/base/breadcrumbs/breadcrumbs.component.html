@@ -1,5 +1,5 @@
 
-<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+<button class="custom-btn" data-bs-toggle="modal" data-bs-target="#inventoryModal">
   + Add Inventory
 </button>
 
@@ -22,26 +22,25 @@
         <td class="py-3 px-4"> {{data.supplier}} </td>
         <td>
           <ng-container *ngIf="isEditing(data); else displayMode">
-            <input 
-              id="editStock" 
-              type="number" 
-              [(ngModel)]="data.initial_stock" 
+            <input
+              id="editStock"
+              type="number"
+              [(ngModel)]="data.initial_stock"
               (keydown)="handleKeyEvent($event, data)"
               (blur)="saveItem(data)"
               class="edit-input">
           </ng-container>
-          
+
           <ng-template #displayMode>
             {{ data.initial_stock }}
           </ng-template>
         </td>
         <td class="py-3 px-4"> {{data.Year}} </td>
         <td class="text-center">
-          <i class="fas fa-rotate-right update-icon" style="color: white;"
-          (click)="startEditing(data)" 
-          [ngClass]="{'disabled-icon': isEditing(data)}"
-          
-          ></i>
+          <i class="btn btn sm btn-warning ms-2"
+          (click)="startEditing(data)"
+          [ngClass]="{'disabled-icon': isEditing(data)}">Update</i>
+
         </td>
       </tr>
     }@empty{

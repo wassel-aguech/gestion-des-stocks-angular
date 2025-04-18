@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminGuard } from '../../guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -29,8 +30,9 @@ export const routes: Routes = [
       {
         path: 'cards',
         loadComponent: () => import('./cards/cards.component').then(m => m.CardsComponent),
+        // canActivate: [adminGuard],
         data: {
-          title: 'Cards'
+          title: 'Cards',
         }
       },
       {
@@ -61,62 +63,6 @@ export const routes: Routes = [
           title: 'Navs & Tabs'
         }
       },
-      {
-        path: 'pagination',
-        loadComponent: () => import('./paginations/paginations.component').then(m => m.PaginationsComponent),
-        data: {
-          title: 'Pagination'
-        }
-      },
-      {
-        path: 'placeholder',
-        loadComponent: () => import('./placeholders/placeholders.component').then(m => m.PlaceholdersComponent),
-        data: {
-          title: 'Placeholder'
-        }
-      },
-      {
-        path: 'popovers',
-        loadComponent: () => import('./popovers/popovers.component').then(m => m.PopoversComponent),
-        data: {
-          title: 'Popovers'
-        }
-      },
-      {
-        path: 'progress',
-        loadComponent: () => import('./progress/progress.component').then(m => m.ProgressComponent),
-        data: {
-          title: 'Progress'
-        }
-      },
-      {
-        path: 'spinners',
-        loadComponent: () => import('./spinners/spinners.component').then(m => m.SpinnersComponent),
-        data: {
-          title: 'Spinners'
-        }
-      },
-      {
-        path: 'tables',
-        loadComponent: () => import('./tables/tables.component').then(m => m.TablesComponent),
-        data: {
-          title: 'Tables'
-        }
-      },
-      {
-        path: 'tabs',
-        loadComponent: () => import('./tabs/tabs.component').then(m => m.AppTabsComponent),
-        data: {
-          title: 'Tabs'
-        }
-      },
-      {
-        path: 'tooltips',
-        loadComponent: () => import('./tooltips/tooltips.component').then(m => m.TooltipsComponent),
-        data: {
-          title: 'Tooltips'
-        }
-      }
     ]
   }
 ];

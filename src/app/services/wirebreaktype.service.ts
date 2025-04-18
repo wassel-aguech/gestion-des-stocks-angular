@@ -22,6 +22,11 @@ export class WirebreaktypeService {
     }
 
 
+    getWireBreakTypesActive(): Observable<WirebreakType[]> {
+      return this.http.get<WirebreakType[]>(`${this.apiUrl2}/active`);
+    }
+
+
      createWireBreakType(wiretype: any): Observable<any> {
             return this.http.post<any>(`${this.apiUrl2}/wirebreaktype`, wiretype )
               .pipe(

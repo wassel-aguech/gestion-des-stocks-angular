@@ -1,22 +1,18 @@
 
-button {
-  display: inline-block;
-  background: linear-gradient(45deg, #FFD700, #FFC107); /* Dégradé doré */
-  color: #1A1A1A; /* Noir légèrement adouci pour le texte */
-  font-size: 20px;
+.custom-btn {
+  background-color: #000168;
+  color: white;
   font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 50px;
-  text-transform: uppercase;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3); /* Ombre dorée */
-  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+  font-size: 1.25rem; /* Taille du texte pour un bouton large */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(45deg, #FFC107, #FFB300); /* Doré plus intense au hover */
-  box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6); /* Ombre plus lumineuse */
+.custom-btn:hover {
+  background-color: #4169e1; /* Légèrement plus foncé */
+  cursor: pointer;
 }
 
 
@@ -33,7 +29,7 @@ td{
 }
 
 .update-icon:hover, .delete-icon:hover {
-  transform: scale(1.2); 
+  transform: scale(1.2);
   color: #00e676;
 }
 

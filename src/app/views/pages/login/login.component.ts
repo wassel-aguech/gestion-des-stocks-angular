@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule, NgStyle } from '@angular/common';
 import { IconDirective } from '@coreui/icons-angular';
 import { ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
@@ -13,9 +13,9 @@ import { AuthenticationRequest } from '../../../models/authentication-request';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     imports: [ContainerComponent, RowComponent, ColComponent,
-       CardGroupComponent, TextColorDirective, CardComponent, 
-       CardBodyComponent, FormDirective, InputGroupComponent, 
-       InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle ,
+       CardGroupComponent, TextColorDirective, CardComponent,
+       CardBodyComponent, FormDirective, InputGroupComponent,
+       InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective,
       CommonModule,ReactiveFormsModule,FormsModule]
 })
 export class LoginComponent {
@@ -24,6 +24,7 @@ export class LoginComponent {
   isLoading = false;
   errorMessage = '';
   authrequest:AuthenticationRequest = new AuthenticationRequest()
+  role:any
 
 
   constructor(
@@ -42,25 +43,33 @@ export class LoginComponent {
     return this.loginForm.get('email')
   }
 
+    authservice = inject(AuthserviceService);
 
+    ngOnInit(): void {
+       this.role =  this.authservice.getRole()
+       console.log('User role in login:', this.role);
+    }
 
   login() {
     if (this.loginForm.invalid) {
       return;
     }
-    
+
     const { email, password } = this.loginForm.value;
     console.log("email:", email, "password:", password);
-    
+
     this.authService.login(email, password).subscribe({
       next: (response: any) => {
         console.log('Login successful, response:');
-        this.router.navigate(['/dashboard']);
+
+                 this.router.navigate(['/dashboard']);
+
+
       },
       error: (error) => {
         console.log('Login error');
       },
-     
+
     });
   }
 }

@@ -6,3 +6,60 @@
   }
 }
 
+.notification-area {
+  position: relative;
+  button {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 50%;
+  }
+  .notification-dropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .notification-dropdown div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .unread {
+    font-weight: bold;
+    background-color: #f0f8ff;
+  }
+}
+
+
+
+.hello-text {
+  font-family: 'Roboto', 'Lato', sans-serif;  /* Choix d'une police moderne et professionnelle */
+  font-size: 36px;  /* Taille de texte plus grande pour plus d'impact */
+  font-weight: bold;  /* Met le texte en gras */
+  text-align: center;  /* Centre le texte */
+  color: #dc3545;  /* Couleur rouge pour l'effet de mise en valeur */
+  text-transform: uppercase;  /* Transforme le texte en majuscules pour un effet plus marqué */
+  letter-spacing: 2px;  /* Espacement des lettres pour un style plus aérien */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);  /* Ombre portée légère pour ajouter de la profondeur */
+  margin-top: 20px;  /* Espacement au-dessus du texte */
+  margin-bottom: 20px;  /* Espacement en dessous */
+}
+

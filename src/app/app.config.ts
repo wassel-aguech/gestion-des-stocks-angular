@@ -45,7 +45,12 @@ export const appConfig: ApplicationConfig = {
           timeOut: 3000,
           progressBar: true,
           closeButton: true
-        })
+        }),
+
+
+
+
+
 
 
 

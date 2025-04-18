@@ -101,9 +101,16 @@ export class AuthserviceService {
     return localStorage.getItem('access_token'); // ✅ Correction
   }
 
+  // getRole(): string {
+  //   return localStorage.getItem('userRole') || 'Aucun rôle trouvé';
+  // }
+
+
   getRole(): string {
-    return localStorage.getItem('userRole') || 'Aucun rôle trouvé';
+    return localStorage.getItem('userRole')?.trim().toLowerCase() || '';
   }
+
+
 
   private clearAuthData(): void {
     this.currentUserSubject.next(null);

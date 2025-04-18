@@ -1,7 +1,9 @@
-import { DOCUMENT, NgStyle } from '@angular/common';
+import { CommonModule, DOCUMENT, NgStyle } from '@angular/common';
 import { Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChartOptions } from 'chart.js';
+import { ToastrService } from 'ngx-toastr';
+
 import {
   AvatarComponent,
   ButtonDirective,
@@ -25,6 +27,8 @@ import { IconDirective } from '@coreui/icons-angular';
 import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
 import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import { AuthserviceService } from '../../services/auth.service';
+
 
 interface IUser {
   name: string;
@@ -43,9 +47,56 @@ interface IUser {
 @Component({
     templateUrl: 'dashboard.component.html',
     styleUrls: ['dashboard.component.scss'],
-    imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent]
+    imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent,
+      ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective,
+      ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent,
+       WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent,CommonModule]
 })
 export class DashboardComponent implements OnInit {
+
+
+  // notifications: any[] = [];
+  // unreadCount = 0;
+  role: any
+  name : any
+
+  constructor(
+    private toastr: ToastrService,private authservice : AuthserviceService,
+
+  ) {}
+
+  ngOnInit() {
+    // this.notificationService.notifications$.subscribe(notifs => {
+    //   this.notifications = notifs;
+    //   this.unreadCount = notifs.filter(n => !n.is_read).length;
+    // });
+
+
+    this.initCharts();
+    this.updateChartOnColorModeChange();
+
+    this.role = this.authservice.getRole().trim().toLowerCase();
+    console.log(" le role est " , this.role)
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    this.name = currentUser.name;
+
+
+
+  }
+
+  // markAllAsRead(): void {
+  //   this.notificationService.markAllAsRead();
+  //   this.unreadCount = 0;
+  // }
+
+
+
+
+
+
+
+
 
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
   readonly #document: Document = inject(DOCUMENT);
@@ -145,10 +196,27 @@ export class DashboardComponent implements OnInit {
     trafficRadio: new FormControl('Month')
   });
 
-  ngOnInit(): void {
-    this.initCharts();
-    this.updateChartOnColorModeChange();
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   initCharts(): void {
     this.mainChart = this.#chartsData.mainChart;

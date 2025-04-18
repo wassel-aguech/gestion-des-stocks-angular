@@ -1,5 +1,5 @@
 
-<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inventoryModal">
+<button class="custom-btn" data-bs-toggle="modal" data-bs-target="#inventoryModal">
   + Add User
 </button>
 
@@ -26,13 +26,32 @@
         <td class="py-3 px-4"> {{data.role}} </td>
         <td class="py-3 px-4"> {{data.plant_name}} </td>
         <td class="text-center">
-          <i class="fas fa-rotate-right update-icon"
+
+          <!-- <i class="fas fa-rotate-right update-icon"
            (click)="getUser(data.id)" style="color: white;"
-           data-bs-toggle="modal" data-bs-target="#updateuserModal"></i>
+           data-bs-toggle="modal" data-bs-target="#updateuserModal">
+          </i>
+
           <i class="fas fa-trash delete-icon ms-2"
            style="color: white; cursor: pointer;"
             (click)="deleteUser(data.id)">
-          </i>
+          </i> -->
+
+
+          <i class="btn btn sm btn-warning ms-2" (click)="getUser(data.id)"
+          data-bs-toggle="modal" data-bs-target="#updateuserModal" > Update</i>
+
+          <i class="btn btn sm btn-danger ms-2" (click)="deleteUser(data.id)"> Delete</i>
+
+
+
+
+
+
+
+
+
+
 
         </td>
       </tr>
