@@ -4,14 +4,14 @@
   <button class="ms-2 btnn" (click)="remplirTransaction()" [disabled]="isUploadLoading || isUploadCompleted">
     <span *ngIf="isUploadLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
     <span *ngIf="isUploadCompleted" class="text-success me-1">✓</span>
-    {{ isUploadLoading ? 'Uploading...' : isUploadCompleted ? 'Uploaded' : 'Transaction' }}
+    {{ isUploadLoading ? 'Uploading...' : isUploadCompleted ? 'Uploaded' : 'Generate Wire Consumption Data' }}
   </button>
 
   <button class="ms-2 btnn" (click)="loadWireConsumption()"
     [disabled]="isGettingWire || isGettingWireCompleted || !isUploadCompleted">
     <span *ngIf="isGettingWire" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
     <span *ngIf="isGettingWireCompleted" class="text-success me-1">✓</span>
-    {{ isGettingWire ? 'Loading...' : isGettingWireCompleted ? 'Data Loaded' : 'Get Wire Consumption' }}
+    {{ isGettingWire ? 'Loading...' : isGettingWireCompleted ? 'Data Loaded' : 'Show Data' }}
   </button>
 
   <button (click)="resetWorkflow()" class=" ms-2"> RESET</button>
@@ -20,9 +20,9 @@
 </div>
 
 <!--  search section-->
-<div class="search-form mt-2 d-flex">
+<div class="search-form mt-2 d-flex ">
 
-    <select [(ngModel)]="search.Plant" (ngModelChange)="paginate()"  id="plant">
+    <select [(ngModel)]="search.Plant" (ngModelChange)="paginate()"  id="plant" class="ms-2 form-select">
       <option value=""> plants</option>
       <option *ngFor="let plant of plants" [value]="plant.Plant">
         {{ plant.Plant }}
@@ -30,7 +30,7 @@
     </select>
 
 
-    <select [(ngModel)]="search.Supplier" (ngModelChange)="paginate()" id="supplier">
+    <select [(ngModel)]="search.Supplier" (ngModelChange)="paginate()" id="supplier" class="ms-2  form-select">
       <option value=""> suppliers</option>
       <option *ngFor="let supplier of listsuppliers" [value]="supplier.supplierid">
         {{ supplier.supplierid }}
@@ -40,9 +40,9 @@
 
 
   <!-- <input type="text" placeholder="Supplier" [(ngModel)]="search.Supplier" (ngModelChange)="paginate()"> -->
-  <input type="number" placeholder="Week Number" [(ngModel)]="search.Week_Number" (ngModelChange)="paginate()">
-  <input type="number" placeholder="Year" [(ngModel)]="search.yearB" (ngModelChange)="paginate()">
-  <i class=" btn btn-sm mb-1 ms-1 btn-danger btnresetfilter" (click)="clearFilter()">Reset</i>
+  <input type="number" class="ms-2 form-control" placeholder="Week Number" [(ngModel)]="search.Week_Number" (ngModelChange)="paginate()">
+  <input type="number" class="ms-2 form-control" placeholder="Year" [(ngModel)]="search.yearB" (ngModelChange)="paginate()">
+  <i class=" btn btn-sm mb-1 ms-1 mt-1 red btnresetfilter" (click)="clearFilter()">Reset</i>
 
 </div>
 <!--   End search section-->

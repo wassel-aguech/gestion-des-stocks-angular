@@ -28,6 +28,9 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet',
         roles: ['plant','admin'],
 
+
+
+
       },
       {
         name: 'Gestion Inventory',

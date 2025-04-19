@@ -41,20 +41,6 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'input-group',
-        loadComponent: () => import('./input-groups/input-groups.component').then(m => m.InputGroupsComponent),
-        data: {
-          title: 'Input Group'
-        }
-      },
-      {
-        path: 'floating-labels',
-        loadComponent: () => import('./floating-labels/floating-labels.component').then(m => m.FloatingLabelsComponent),
-        data: {
-          title: 'Floating Labels'
-        }
-      },
-      {
         path: 'layout',
         loadComponent: () => import('./layout/layout.component').then(m => m.LayoutComponent),
         data: {

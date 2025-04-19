@@ -34,17 +34,15 @@ Button:hover {
   cursor: pointer;
 }
 
-  th{
-    background-color: gray;
-    border: 1px solid white;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  td{
-    border: 1px solid white;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
+th{
+  background-color: gray;
+  border: 1px solid white;
+}
+td{
+  border: 1px solid black;
+  color: black;
+
+}
 
   table {
     width: 100%;
@@ -85,7 +83,7 @@ Button:hover {
 }
 
 .red{
-  background-color: crimson;
+  background-color: rgb(142, 73, 27);
   color: white;
   font-weight: bold;
 }
