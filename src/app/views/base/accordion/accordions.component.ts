@@ -181,14 +181,13 @@ export class AccordionsComponent implements OnInit {
         this.temporaryData = [];
 
 
-
-
-
         setTimeout(() => {
           this.isSaveDataLoading = false;
           this.isSaveDataCompleted = true;
 
         }, 2500);
+
+        this.toastr.info('DATA SAVED  ', 'Success' );
       },
       error => {
         console.error('Erreur validation', error);

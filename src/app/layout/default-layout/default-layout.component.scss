@@ -37,3 +37,37 @@
 
 
 
+/* Style pour le dropdown */
+.dropdown-menu {
+  max-height: 300px; /* Limite la hauteur du dropdown */
+  overflow-y: auto; /* Active le défilement vertical si nécessaire */
+  width: 300px; /* Définir une largeur pour éviter un menu trop large */
+}
+
+/* Style pour chaque notification */
+.dropdown-item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect pour les items du dropdown */
+.dropdown-item:hover {
+  background-color: #f8f9fa; /* Ajouter un effet au survol */
+}
+
+/* Icône de notification */
+.bi-bell-fill {
+  color: #0d6efd; /* Couleur bleue pour l'icône */
+}
+
+.dropdown-item {
+  white-space: normal !important;
+}
+
+.btn-sm {
+  padding: 2px 8px;
+  font-size: 0.75rem;
+}
+
+
+
