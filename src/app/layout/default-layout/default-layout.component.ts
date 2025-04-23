@@ -24,7 +24,6 @@ import { CommonModule } from '@angular/common';
 import { SocketIoModule } from 'ngx-socket-io';
 import { NotificationService } from '../../services/notification.service';
 import { Subscription } from 'rxjs';
-import { CustomNotificationToastComponent } from '../custom-notification-toast/custom-notification-toast.component';
 
 
 function isOverflown(element: HTMLElement) {
@@ -66,6 +65,8 @@ export class DefaultLayoutComponent {
   notifications: any[] = [];
   notificationCount = 0;
   private sseSub?: Subscription;
+  playAnimation = false; // Variable pour contrôler l'animation
+
 
 
 
@@ -83,28 +84,97 @@ export class DefaultLayoutComponent {
 
       this.role = localStorage.getItem('role') || '';
 
-   // if (this.role === 'admin') {
+    if (this.role === 'admin') {
     this.loadHistory();
 
+
     this.sseSub = this.notificationService.connectToNotifications()
-      .subscribe(data => {
+    .subscribe({
+      next: (event) => {
         this.notificationCount++;
 
+        console.log('Nouvelle notification reçue:', event);
+
+        // Extraction correcte du message selon la structure du backend
+        const fullMessage = event.data?.data.message ||
+                           `New wire break added (${event.data?.event || 'unknown source'})`;
+
         const newNotif = {
-          id: Date.now(), // ID temporaire (ou utilise celui de ton backend si disponible)
-          message: data.message,
+          id: event.data?.wirebreak_id || Date.now(),
+          message: fullMessage,
           created_at: new Date().toISOString(),
-          is_read: false
+          is_read: false,
+          type: event.type
         };
+
 
         this.notifications.unshift(newNotif);
 
 
-      });
+        // Affichage toastr avec le message complet
+        this.toastr.info(
+          fullMessage,
+          'Nouvelle Notification',
+          {
+            timeOut: 8000,
+            closeButton: true,
+            progressBar: true
+          }
+        );
+      },
+      error: (err) => {
+        console.error('Erreur SSE:', err);
+        this.toastr.error('Connexion aux notifications perdue', 'Erreur');
+      }
+    });
 
 
 
-   // }
+
+  //   this.sseSub = this.notificationService.connectToNotifications()
+  // .subscribe(data => {
+  //   this.notificationCount++;
+
+  //   const newNotif = {
+  //     id: Date.now(), // ID temporaire
+  //     message: data.data.message, // 👈 utilise `data.data.message` si tu envoies {type, data}
+  //     created_at: new Date().toISOString(),
+  //     is_read: false
+  //   };
+
+  //   this.notifications.unshift(newNotif);
+
+  //   // ✅ Affiche la notification via Toastr
+  //   this.toastr.info(newNotif.message, 'Nouvelle Notification', {
+  //     timeOut: 8000,
+  //     closeButton: true,
+  //     progressBar: true
+  //   });
+  // });
+
+  // this.sseSub = this.notificationService.connectToNotifications()
+  // .subscribe(data => {
+  //   this.notificationCount++;
+
+  //   const newNotif = {
+  //     id: Date.now(),
+  //     message: data.data.message,
+  //     user_id: data.data.user_id, // 👈 ajout de l’ID utilisateur
+  //     created_at: new Date().toISOString(),
+  //     is_read: false
+  //   };
+
+  //   this.notifications.unshift(newNotif);
+
+  //   this.toastr.info(`${newNotif.message} (ID: ${newNotif.user_id})`, '🔔 Notification', {
+  //     timeOut: 5000,
+  //     closeButton: true,
+  //     progressBar: true
+  //   });
+  // });
+
+
+    }
 
 
       const userRole = this.authservice.getRole()?.trim().toLowerCase() || '';
@@ -120,22 +190,22 @@ export class DefaultLayoutComponent {
 
 
 
-    this.notificationService.getNotificationHistory().subscribe(history => {
-      const unreadNotifications = history.filter(notif => !notif.is_read);
+    // this.notificationService.getNotificationHistory().subscribe(history => {
+    //   const unreadNotifications = history.filter(notif => !notif.is_read);
 
-      unreadNotifications.forEach(notif => {
-        this.toastr.show(
-          notif.message,
-          'Nouvelle Notification ',
-          {
-            disableTimeOut: true, 
-            closeButton: false,
-            toastClass: 'ngx-toastr custom-toast',
-            positionClass: 'toast-bottom-right'
-          }
-        );
-      });
-    });
+    //   unreadNotifications.forEach(notif => {
+    //     this.toastr.show(
+    //       notif.message,
+    //       'Nouvelle Notification ',
+    //       {
+    //         disableTimeOut: true,
+    //         closeButton: false,
+    //         toastClass: 'ngx-toastr custom-toast',
+    //         positionClass: 'toast-bottom-right'
+    //       }
+    //     );
+    //   });
+    // });
 
 
 

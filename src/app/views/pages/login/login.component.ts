@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthserviceService } from '../../../services/auth.service';
 import { AuthenticationRequest } from '../../../models/authentication-request';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class LoginComponent {
   errorMessage = '';
   authrequest:AuthenticationRequest = new AuthenticationRequest()
   role:any
+  http = inject  (HttpClient);
 
 
   constructor(
@@ -63,6 +65,7 @@ export class LoginComponent {
         console.log('Login successful, response:');
 
                  this.router.navigate(['/dashboard']);
+
 
 
       },

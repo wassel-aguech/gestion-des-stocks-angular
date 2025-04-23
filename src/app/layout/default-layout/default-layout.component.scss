@@ -71,3 +71,22 @@
 
 
 
+
+
+.list-group-item {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.list-group-item.unread {
+  font-weight: 500;
+}
+
+
+
+
