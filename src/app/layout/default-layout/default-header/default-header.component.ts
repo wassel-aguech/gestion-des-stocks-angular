@@ -1,11 +1,11 @@
-import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectorRef, Component, computed, inject, input } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 import {
   AvatarComponent,
   BadgeComponent,
-  BreadcrumbRouterComponent,
+  // BreadcrumbRouterComponent,
   ColorModeService,
   ContainerComponent,
   DropdownComponent,
@@ -17,19 +17,29 @@ import {
   HeaderComponent,
   HeaderNavComponent,
   HeaderTogglerDirective,
-  NavItemComponent,
+  // NavItemComponent,
   NavLinkDirective,
   SidebarToggleDirective
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
 import { AuthserviceService } from '../../../services/auth.service';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
     selector: 'app-default-header',
     templateUrl: './default-header.component.html',
-  imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, BreadcrumbRouterComponent, DropdownComponent, DropdownToggleDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective]
+  imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective,
+     HeaderNavComponent, NavLinkDirective, RouterLink, NgTemplateOutlet,
+       DropdownComponent, DropdownToggleDirective, AvatarComponent,
+      DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent,
+       DropdownDividerDirective,CommonModule],
 })
+// NavItemComponent
+//BreadcrumbRouterComponent,
+//RouterLinkActive
 export class DefaultHeaderComponent extends HeaderComponent {
 
   readonly #colorModeService = inject(ColorModeService);
@@ -46,15 +56,99 @@ export class DefaultHeaderComponent extends HeaderComponent {
     return this.colorModes.find(mode => mode.name === currentMode)?.icon ?? 'cilSun';
   });
 
+
+    public filteredNavItems: any[] = [];
+    notifications: any[] = [];
+    notificationCount = 0;
+    playAnimation = false;
+    showNotifications : boolean = false;
+    sseSub: any;
+    userRole: any;
+
+
   constructor(private authService: AuthserviceService,
-    private router: Router) {
+    private toastr: ToastrService,
+    private notificationService: NotificationService,
+    private router: Router,    private cdRef: ChangeDetectorRef  // Injection de ChangeDetectorRef
+  ) {
     super();
 
   }
 
 
+ngOnInit(): void {
+
+  this.userRole = localStorage.getItem('userRole') || '';
+  if (this.userRole === 'Admin') {
+
+  this.loadHistory();
+
+  this.sseSub = this.notificationService.connectToNotifications().subscribe({
+    next: (event) => {
+      this.notificationCount++;
+
+      console.log('Nouvelle notification reçue:', event);
+
+      const fullMessage = event.data?.data.message ||
+        `New wire break added (${event.data?.event || 'unknown source'})`;
+
+      const newNotif = {
+        id: event.data?.wirebreak_id || Date.now(),
+        message: fullMessage,
+        created_at: new Date().toISOString(),
+        is_read: false,
+        type: event.type
+      };
+
+      this.notifications.unshift(newNotif);
+
+      this.cdRef.detectChanges();  // Force la détection des changements
 
 
+      // Affichage toastr avec le message complet
+      this.toastr.info(fullMessage, 'Nouvelle Notification', {
+        timeOut: 8000,
+        closeButton: true,
+        progressBar: true
+      });
+    },
+    error: (err) => {
+      console.error('Erreur SSE:', err);
+      this.toastr.error('Connexion aux notifications perdue', 'Erreur');
+    }
+  });
+}}
+
+ngOnDestroy(): void {
+  this.sseSub?.unsubscribe();
+}
+
+// Récupère l’historique des notifications
+loadHistory(): void {
+  this.notificationService.getNotificationHistory().subscribe(history => {
+    this.notifications = history;
+    this.notificationCount = this.notifications.filter(n => !n.is_read).length;
+
+    this.cdRef.detectChanges();  // Force la détection des changements
+
+  });
+}
+
+// Méthode pour marquer les notifications comme lues
+markAsRead(notification: any): void {
+  this.notificationService.markAsRead(notification.id).subscribe(() => {
+    notification.is_read = true;
+    this.notificationCount = this.notifications.filter(n => !n.is_read).length;
+
+
+  });
+}
+
+toggleNotifications(): void {
+  console.log('Toggle notifications:', this.showNotifications); // Vérifie si la variable bascule
+  console.log('Notifications:', this.notifications);  // Vérifie le contenu de la liste des notifications
+  this.showNotifications = !this.showNotifications;
+}
 
 
 

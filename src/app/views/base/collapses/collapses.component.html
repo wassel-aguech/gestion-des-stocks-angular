@@ -5,9 +5,31 @@
 </div>
 
 
+<!-- Search Section -->
+<div class="search-form m-2 d-flex ">
 
-<div class="p-0 m-0">
-  <table class="w-full border-collapse rounded-lg overflow-hidden bg-gray-900 text-white shadow-lg w-100 mt-2">
+  <select [(ngModel)]="search.Plant" (ngModelChange)="setPageData()" class="form-select ms-2">
+    <option value="">Plants</option>
+    <option *ngFor="let plant of plants" [value]="plant.Plant">{{ plant.Plant }}</option>
+  </select>
+
+  <select [(ngModel)]="search.Supplier" (ngModelChange)="setPageData()" class="form-select ms-2 ">
+    <option value="">Suppliers</option>
+    <option *ngFor="let supplier of listsuppliers" [value]="supplier.supplierid">{{ supplier.supplierid }}</option>
+  </select>
+
+  <input type="number" class="form-control ms-2 " placeholder="Week Number" [(ngModel)]="search.Week_Number" (ngModelChange)="setPageData()">
+  <input type="number" class="form-control ms-2 " placeholder="Year" [(ngModel)]="search.yearB" (ngModelChange)="setPageData()">
+
+  <button class="btn btn-outline-danger btn-sm" (click)="clearFilter()">Reset</button>
+
+</div>
+
+
+
+
+<div class="p-0 m-0" *ngIf="pagedData.length > 0">
+  <table class="table table-bordered table-dark">
     <thead class="bg-gray-800 text-gray-300 text-center">
       <tr>
         <th class="py-3 px-4 text-left"> Plant</th>
@@ -26,7 +48,7 @@
       </tr>
     </thead>
     <tbody class="text-center">
-      @for(data of wireBreakDetails ; track $index){
+      @for(data of pagedData ; track $index){
       <tr class="border-b border-gray-700 hover:bg-gray-800 transition">
         <td class="py-3 px-4"> {{data.Plant}} </td>
         <td class="py-3 px-4"> {{data.Supplier}} </td>
@@ -44,4 +66,36 @@
 
     </tbody>
   </table>
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      </li>
+
+      <li *ngIf="currentPage > 2" class="page-item">
+        <button class="page-link" (click)="onPageChange(1)">1</button>
+      </li>
+
+      <li *ngIf="currentPage > 3" class="page-item disabled"><span class="page-link">...</span></li>
+
+      <li *ngFor="let page of pageNumbers" class="page-item" [class.active]="currentPage === page">
+        <button class="page-link" (click)="onPageChange(page)">{{ page }}</button>
+      </li>
+
+      <li *ngIf="currentPage < totalPages - 2" class="page-item disabled"><span class="page-link">...</span></li>
+
+      <li *ngIf="currentPage < totalPages - 1" class="page-item">
+        <button class="page-link" (click)="onPageChange(totalPages)">{{ totalPages }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+      </li>
+    </ul>
+  </nav>
+
+
+
+
+
 </div>

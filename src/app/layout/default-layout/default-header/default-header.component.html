@@ -12,28 +12,160 @@
       <svg cIcon name="cilMenu" size="lg"></svg>
     </button>
     <c-header-nav class="d-none d-md-flex">
-      <!-- <c-nav-item>
-        <a cNavLink routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      </c-nav-item>
-      <c-nav-item>
-        <a cNavLink routerLink="/users" routerLinkActive="active">Users</a>
-      </c-nav-item>
-      <c-nav-item>
-        <a cNavLink routerLink="/settings" routerLinkActive="active">Settings</a>
-      </c-nav-item> -->
+
     </c-header-nav>
 
-    <c-header-nav class="d-none d-md-flex ms-auto ">
+    <!-- <c-header-nav class="d-none d-md-flex ms-auto ">
       <a cNavLink>
         <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
       </a>
+    </c-header-nav> -->
+
+    <!-- <c-header-nav class="d-none d-md-flex ms-auto">
+      <a cNavLink (click)="toggleNotifications()" class="position-relative">
+        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
+
+        <span *ngIf="notificationCount > 0"
+              class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.75rem; padding: 0.2rem 0.4rem; right: 5px; top: 3px;">
+          {{ notificationCount }}
+          <span class="visually-hidden">notifications non lues</span>
+        </span>
+      </a>
+    </c-header-nav> -->
+
+    <!-- <div *ngIf="showNotifications" class="dropdown-menu dropdown-menu-end" style="max-height: 300px; overflow-y: auto; width: 320px;">
+      <ul class="list-unstyled">
+        <li *ngFor="let notif of notifications">
+          <div class="dropdown-item d-flex justify-content-between align-items-start">
+            <div>
+              <div class="d-flex align-items-center">
+                <i class="fas fa-bell text-primary me-2"></i>
+                <span [ngClass]="{ 'fw-bold': !notif.is_read }">{{ notif.message }}</span>
+              </div>
+              <small class="text-muted ms-4">{{ notif.created_at | date:'short' }}</small>
+            </div>
+
+            <button *ngIf="!notif.is_read"
+                    class="btn btn-outline-success ms-2"
+                    (click)="markAsRead(notif)"
+                    title="Marquer comme lue">
+              <i class="fas fa-check-circle" style="font-size: 1.3rem;"></i>
+            </button>
+          </div>
+        </li>
+
+        <li *ngIf="notifications.length === 0">
+          <span class="dropdown-item text-muted">Aucune notification</span>
+        </li>
+      </ul>
+    </div> -->
+
+
+
+    <!-- <c-header-nav class="d-none d-md-flex ms-auto">
+      <a cNavLink (click)="toggleNotifications()" class="position-relative">
+        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
+        <span *ngIf="notificationCount > 0"
+              class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.75rem; padding: 0.2rem 0.4rem; right: 5px; top: 3px;">
+          {{ notificationCount }}
+          <span class="visually-hidden">notifications non lues</span>
+        </span>
+      </a>
+    </c-header-nav> -->
+
+
+
+     <!-- <div [ngClass]="{'show': showNotifications}" class="dropdown-menu dropdown-menu-end" style="max-height: 300px; overflow-y: auto; width: 320px;">
+      <ul class="list-unstyled">
+        <li *ngFor="let notif of notifications">
+          <div class="dropdown-item d-flex justify-content-between align-items-start">
+            <div>
+              <div class="d-flex align-items-center">
+                <i class="fas fa-bell text-primary me-2"></i>
+                <span [ngClass]="{ 'fw-bold': !notif.is_read }">{{ notif.message }}</span>
+              </div>
+              <small class="text-muted ms-4">{{ notif.created_at | date:'short' }}</small>
+            </div>
+            <button *ngIf="!notif.is_read"
+                    class="btn btn-outline-success ms-2"
+                    (click)="markAsRead(notif)"
+                    title="Marquer comme lue">
+              <i class="fas fa-check-circle" style="font-size: 1.3rem;"></i>
+            </button>
+          </div>
+        </li>
+
+        <li *ngIf="notifications.length === 0">
+          <span class="dropdown-item text-muted">Aucune notification</span>
+        </li>
+      </ul>
+    </div> -->
+
+    <c-header-nav class="d-none d-md-flex ms-auto position-relative">
+      <a cNavLink (click)="toggleNotifications()" class="position-relative">
+        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
+        <span *ngIf="notificationCount > 0"
+              class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.75rem; padding: 0.2rem 0.4rem; right: 5px; top: 3px;">
+          {{ notificationCount }}
+          <span class="visually-hidden">notifications non lues</span>
+        </span>
+      </a>
+
+
+      <!-- Notifications sous forme de liste (dropdown) -->
+      <div [ngClass]="{'show': showNotifications}" class="dropdown-menu dropdown-menu-end mt-5 "
+           style="max-height: 300px; overflow-y: auto; width: 100px;">
+        <ul class="list-unstyled" style="margin-bottom: 0;">
+          <li *ngFor="let notif of notifications">
+            <div class="dropdown-item d-flex justify-content-between align-items-start" style="cursor: pointer;">
+              <div>
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-bell text-primary me-2"></i>
+                  <span [ngClass]="{ 'fw-bold': !notif.is_read }">{{ notif.message }}</span>
+                </div>
+                <small class="text-muted ms-4">{{ notif.created_at | date:'short' }}</small>
+              </div>
+              <button *ngIf="!notif.is_read"
+                      class="btn btn-outline-success ms-2"
+                      (click)="markAsRead(notif)"
+                      title="Marquer comme lue">
+                <i class="fas fa-check-circle" style="font-size: 1.3rem;"></i>
+              </button>
+            </div>
+          </li>
+
+          <li *ngIf="notifications.length === 0">
+            <span class="dropdown-item text-muted">Aucune notification</span>
+          </li>
+        </ul>
+      </div>
+    </c-header-nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <!-- <a cNavLink>
         <svg cIcon class="my-1" name="cilList" size="lg"></svg>
       </a>
       <a cNavLink>
         <svg cIcon class="my-1" name="cilEnvelopeOpen" size="lg"></svg>
       </a> -->
-    </c-header-nav>
 
     <c-header-nav class="ms-auto ms-md-0">
       <div class="nav-item py-1">

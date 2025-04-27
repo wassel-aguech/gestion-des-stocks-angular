@@ -1,4 +1,28 @@
 
+
+
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th, td {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: nowrap;
+  padding: 8px;
+  text-align: left;
+  max-width: 150px; /* limite la largeur */
+}
+
+
 th{
   background-color: gray;
   border: 1px solid white;
@@ -11,13 +35,15 @@ td{
   overflow: hidden;
 }
 
-table {
-  width: 100%;
-  table-layout: fixed;
-  overflow-x: auto;
-}
 
 
 .text-titre{
   color:#BA6525
+}
+
+
+.red{
+  background-color: rgb(142, 73, 27);
+  color: white;
+  font-weight: bold;
 }

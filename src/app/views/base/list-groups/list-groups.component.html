@@ -2,10 +2,44 @@
 
 
 
-<div class="titre d-flex justify-content-center elign-items-center"> 
+<div class="titre d-flex justify-content-center elign-items-center">
   <img src="..\assets\images\consumption.png"  class="mb-3"  width="50px" alt="">
   <h1 class="text-center text-titre ms-3 mt-2 ">WireConsumption</h1>
 </div>
+
+
+<!--  search section-->
+<div class="search-form m-2 d-flex ">
+
+  <select [(ngModel)]="search.Plant" (ngModelChange)="setPageData()"  id="plant" class="ms-2 form-select">
+    <option value=""> plants</option>
+    <option *ngFor="let plant of plants" [value]="plant.Plant">
+      {{ plant.Plant }}
+    </option>
+  </select>
+
+
+  <select [(ngModel)]="search.Supplier" (ngModelChange)="setPageData()" id="supplier" class="ms-2  form-select">
+    <option value=""> suppliers</option>
+    <option *ngFor="let supplier of listsuppliers" [value]="supplier.supplierid">
+      {{ supplier.supplierid }}
+    </option>
+  </select>
+
+
+
+<!-- <input type="text" placeholder="Supplier" [(ngModel)]="search.Supplier" (ngModelChange)="paginate()"> -->
+<input type="number" class="ms-2 form-control" placeholder="Week Number" [(ngModel)]="search.Week_Number" (ngModelChange)="setPageData()">
+<input type="number" class="ms-2 form-control" placeholder="Year" [(ngModel)]="search.yearB" (ngModelChange)="setPageData()">
+<i class=" btn btn-sm mb-1 ms-1 mt-1 red btnresetfilter" (click)="clearFilter()">Reset</i>
+
+</div>
+<!--   End search section-->
+
+
+
+
+
 
 <div class="p-0 m-0">
   <table class="table table-bordered table-dark">

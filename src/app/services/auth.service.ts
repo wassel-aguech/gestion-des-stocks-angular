@@ -1,7 +1,7 @@
 
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationResponse } from '../models/authentication-response';
@@ -67,14 +67,45 @@ export class AuthserviceService {
 
   logout(): Observable<any> {
     const accessToken = this.accessTokenSubject.getValue();
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
 
     this.clearAuthData();
 
-    return this.http.post(`${this.apiUrl}/logout`, {});
+    return this.http.post(`${this.apiUrl}/logout`, {}, { headers });
   }
 
+
+  refreshAccessToken(): Observable<any> {
+    return this.http.post<any>('http://localhost:5000/api/auth/refresh', {}).pipe(
+      tap(response => {
+        const newAccessToken = response.access_token;
+        localStorage.setItem('access_token', newAccessToken);
+        this.accessTokenSubject.next(newAccessToken);
+      })
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   refreshToken(): Observable<RefreshResponse> {
-    const refreshToken = localStorage.getItem('refresh_token'); // ✅ Correction
+    const refreshToken = localStorage.getItem('refresh_token');
 
     if (!refreshToken) {
       throw new Error('No refresh token available');
@@ -101,10 +132,6 @@ export class AuthserviceService {
     return localStorage.getItem('access_token'); // ✅ Correction
   }
 
-  // getRole(): string {
-  //   return localStorage.getItem('userRole') || 'Aucun rôle trouvé';
-  // }
-
 
   getRole(): string {
     return localStorage.getItem('userRole')?.trim().toLowerCase() || '';
@@ -112,7 +139,7 @@ export class AuthserviceService {
 
 
 
-  private clearAuthData(): void {
+  public clearAuthData(): void {
     this.currentUserSubject.next(null);
     this.accessTokenSubject.next(null);
     this.refreshTokenSubject.next(null);

@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
 @Injectable({ providedIn: 'root' })
@@ -13,49 +12,6 @@ export class NotificationService {
     private http: HttpClient,
     private zone: NgZone
   ) {}
-
-
-
-  // connectToNotifications(): Observable<any> {
-  //   return new Observable(observer => {
-  //     const token = localStorage.getItem('access_token');
-
-  //     if (!token) {
-  //       observer.error('No token found');
-  //       return;
-  //     }
-
-  //     // Supprimer withCredentials et ajouter le token dans l'URL
-  //     const url = `http://localhost:5000/stream?token=${token}`;
-
-  //     this.eventSource = new EventSource(url);
-
-
-  //     this.eventSource.onopen = (event) => {
-  //       console.log('SSE connection opened', event);
-  //     };
-
-  //     this.eventSource.onmessage = (event) => {
-  //       const data = JSON.parse(event.data);
-  //       this.zone.run(() => {
-  //         observer.next(data.data);
-  //       });
-  //     };
-
-  //     this.eventSource.onerror = (err) => {
-  //       console.error('SSE error:', err);
-  //       observer.error(err);
-  //     };
-
-  //     return () => {
-  //       if (this.eventSource) {
-  //         this.eventSource.close();
-  //        // this.eventSource = undefined;
-  //       }
-  //     };
-  //   });
-  // }
-
 
   connectToNotifications(): Observable<any> {
     return new Observable(observer => {
