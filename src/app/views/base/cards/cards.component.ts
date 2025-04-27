@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { WireconsumptionService } from '../../../services/wireconsumption.service';
 import { Wireconsumption } from '../../../models/wireconsumption';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { TransactionService } from '../../../services/transaction.service';
 import { PlantService } from '../../../services/plant.service';
 import { Plant } from '../../../models/plant';
 import { SupplierService } from '../../../services/supplier.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -64,9 +65,12 @@ export class CardsComponent implements OnInit {
 
   visiblePages: number[] = [];
 
+  toastr = inject(ToastrService);
 
 
 
+
+  @ViewChild('closemodal') closemodal!: ElementRef;
 
 
 
@@ -288,6 +292,15 @@ export class CardsComponent implements OnInit {
     this.wireconsumptionservice.updateWireConsumption(this.addForm.value).subscribe({
       next: (response) => {
         this.message = 'Mise à jour réussie !';
+
+
+        this.loadWireConsumption()
+
+        this.closemodal.nativeElement.click();
+
+        this.toastr.info('Mise à jour réussie', 'Succès');
+
+
       },
       error: (error) => {
         console.error('Erreur lors de la mise à jour', error);
