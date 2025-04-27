@@ -1,11 +1,9 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, inject, input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 import {
-  AvatarComponent,
-  BadgeComponent,
-  // BreadcrumbRouterComponent,
+
   ColorModeService,
   ContainerComponent,
   DropdownComponent,
@@ -17,7 +15,6 @@ import {
   HeaderComponent,
   HeaderNavComponent,
   HeaderTogglerDirective,
-  // NavItemComponent,
   NavLinkDirective,
   SidebarToggleDirective
 } from '@coreui/angular';
@@ -32,10 +29,10 @@ import { NotificationService } from '../../../services/notification.service';
     selector: 'app-default-header',
     templateUrl: './default-header.component.html',
   imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective,
-     HeaderNavComponent, NavLinkDirective, RouterLink, NgTemplateOutlet,
-       DropdownComponent, DropdownToggleDirective, AvatarComponent,
-      DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent,
-       DropdownDividerDirective,CommonModule],
+     HeaderNavComponent, NavLinkDirective, NgTemplateOutlet,
+       DropdownComponent, DropdownToggleDirective,
+      DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective
+       ,CommonModule],
 })
 // NavItemComponent
 //BreadcrumbRouterComponent,
@@ -165,16 +162,6 @@ toggleNotifications(): void {
       }
     });
   }
-
-
-
-
-
-
-
-
-
-
 
 
 

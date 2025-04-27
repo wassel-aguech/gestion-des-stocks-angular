@@ -1,4 +1,3 @@
-<!--<c-header class="mb-4 d-print-none" position="sticky">-->
 <ng-container>
   <c-container [fluid]="true" class="border-bottom px-4" style="background-color: #000168;">
     <button
@@ -15,93 +14,8 @@
 
     </c-header-nav>
 
-    <!-- <c-header-nav class="d-none d-md-flex ms-auto ">
-      <a cNavLink>
-        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
-      </a>
-    </c-header-nav> -->
+          <!-- Notifications menue-->
 
-    <!-- <c-header-nav class="d-none d-md-flex ms-auto">
-      <a cNavLink (click)="toggleNotifications()" class="position-relative">
-        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
-
-        <span *ngIf="notificationCount > 0"
-              class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger"
-              style="font-size: 0.75rem; padding: 0.2rem 0.4rem; right: 5px; top: 3px;">
-          {{ notificationCount }}
-          <span class="visually-hidden">notifications non lues</span>
-        </span>
-      </a>
-    </c-header-nav> -->
-
-    <!-- <div *ngIf="showNotifications" class="dropdown-menu dropdown-menu-end" style="max-height: 300px; overflow-y: auto; width: 320px;">
-      <ul class="list-unstyled">
-        <li *ngFor="let notif of notifications">
-          <div class="dropdown-item d-flex justify-content-between align-items-start">
-            <div>
-              <div class="d-flex align-items-center">
-                <i class="fas fa-bell text-primary me-2"></i>
-                <span [ngClass]="{ 'fw-bold': !notif.is_read }">{{ notif.message }}</span>
-              </div>
-              <small class="text-muted ms-4">{{ notif.created_at | date:'short' }}</small>
-            </div>
-
-            <button *ngIf="!notif.is_read"
-                    class="btn btn-outline-success ms-2"
-                    (click)="markAsRead(notif)"
-                    title="Marquer comme lue">
-              <i class="fas fa-check-circle" style="font-size: 1.3rem;"></i>
-            </button>
-          </div>
-        </li>
-
-        <li *ngIf="notifications.length === 0">
-          <span class="dropdown-item text-muted">Aucune notification</span>
-        </li>
-      </ul>
-    </div> -->
-
-
-
-    <!-- <c-header-nav class="d-none d-md-flex ms-auto">
-      <a cNavLink (click)="toggleNotifications()" class="position-relative">
-        <svg cIcon class="my-1" name="cilBell" size="lg"></svg>
-        <span *ngIf="notificationCount > 0"
-              class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger"
-              style="font-size: 0.75rem; padding: 0.2rem 0.4rem; right: 5px; top: 3px;">
-          {{ notificationCount }}
-          <span class="visually-hidden">notifications non lues</span>
-        </span>
-      </a>
-    </c-header-nav> -->
-
-
-
-     <!-- <div [ngClass]="{'show': showNotifications}" class="dropdown-menu dropdown-menu-end" style="max-height: 300px; overflow-y: auto; width: 320px;">
-      <ul class="list-unstyled">
-        <li *ngFor="let notif of notifications">
-          <div class="dropdown-item d-flex justify-content-between align-items-start">
-            <div>
-              <div class="d-flex align-items-center">
-                <i class="fas fa-bell text-primary me-2"></i>
-                <span [ngClass]="{ 'fw-bold': !notif.is_read }">{{ notif.message }}</span>
-              </div>
-              <small class="text-muted ms-4">{{ notif.created_at | date:'short' }}</small>
-            </div>
-            <button *ngIf="!notif.is_read"
-                    class="btn btn-outline-success ms-2"
-                    (click)="markAsRead(notif)"
-                    title="Marquer comme lue">
-              <i class="fas fa-check-circle" style="font-size: 1.3rem;"></i>
-            </button>
-          </div>
-        </li>
-
-        <li *ngIf="notifications.length === 0">
-          <span class="dropdown-item text-muted">Aucune notification</span>
-        </li>
-      </ul>
-    </div> -->
 
     <c-header-nav class="d-none d-md-flex ms-auto position-relative">
       <a cNavLink (click)="toggleNotifications()" class="position-relative">
@@ -115,7 +29,6 @@
       </a>
 
 
-      <!-- Notifications sous forme de liste (dropdown) -->
       <div [ngClass]="{'show': showNotifications}" class="dropdown-menu dropdown-menu-end mt-5 "
            style="max-height: 300px; overflow-y: auto; width: 100px;">
         <ul class="list-unstyled" style="margin-bottom: 0;">
@@ -144,30 +57,10 @@
       </div>
     </c-header-nav>
 
+     <!-- END Notifications menue-->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <!-- <a cNavLink>
-        <svg cIcon class="my-1" name="cilList" size="lg"></svg>
-      </a>
-      <a cNavLink>
-        <svg cIcon class="my-1" name="cilEnvelopeOpen" size="lg"></svg>
-      </a> -->
-
-    <c-header-nav class="ms-auto ms-md-0">
+     <c-header-nav class="ms-auto ms-md-0">
       <div class="nav-item py-1">
         <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
       </div>
@@ -177,20 +70,32 @@
       </div>
     </c-header-nav>
 
-    <c-header-nav class="mx-0">
+   <c-header-nav class="mx-0">
       <ng-container *ngTemplateOutlet="userDropdown" />
     </c-header-nav>
 
-  </c-container>
-  <!-- <c-container [fluid]="true" class="px-4">
-    <c-breadcrumb-router />
-  </c-container>
-</ng-container> -->
-<!--</c-header>-->
 
-<ng-template #userDropdown>
+
+    <c-header-nav class="mx-0">
+      <a  (click)="onLogout()" style="cursor: pointer;">
+      <img src="./assets/images/logout.png" alt=""  width="40px">
+      </a>
+    </c-header-nav>
+
+
+
+
+
+
+
+
+
+
+  </c-container>
+
+  <ng-template #userDropdown>
   <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item">
-    <button [caret]="false" cDropdownToggle class="py-0 pe-0" aria-label="Open user menu">
+     <!-- <button [caret]="false" cDropdownToggle class="py-0 pe-0" aria-label="Open user menu">
       <c-avatar
         shape="rounded-1"
         [size]="'md'"
@@ -199,88 +104,18 @@
         textColor="primary"
         alt="User avatar"
       />
-    </button>
+    </button> -->
+
+
     <ul cDropdownMenu class="pt-0 w-auto">
       <li>
         <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2 rounded-top">
           Account
         </h6>
       </li>
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilBell"></svg>
-          Updates
-          <c-badge class="ms-2 float-end" color="info"> 42</c-badge>
-        </a>
-      </li>
-      <!-- <li>
-        <a cDropdownItem routerLink="/apps/email/inbox">
-          <svg cIcon class="me-2" name="cilEnvelopeOpen"></svg>
-          Messages
-          <c-badge class="ms-2 float-end" color="success">
-            42
-          </c-badge>
-        </a>
-      </li>
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilTask"></svg>
-          Tasks
-          <c-badge class="ms-2 float-end" color="danger"> 42</c-badge>
-        </a>
-      </li>
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilCommentSquare"></svg>
-          Comments
-          <c-badge class="ms-auto" color="warning"> 42</c-badge>
-        </a>
-      </li>
-      <li>
-        <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2">
-          Settings
-        </h6>
-      </li> -->
-      <!-- <li></li>
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilUser"></svg>
-          Profile
-        </a>
-      </li>
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilSettings"></svg>
-          Settings
-        </a>
-      </li>
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilCreditCard"></svg>
-          Payments
-          <c-badge class="ms-2 float-end" color="secondary">
-            42
-          </c-badge>
-        </a>
-      </li> -->
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilFile"></svg>
-          Projects
-          <c-badge class="ms-2 float-end" color="primary">
-            42
-          </c-badge>
-        </a>
-      </li>
-      <li>
-        <hr cDropdownDivider />
-      </li>
-      <li>
-        <a cDropdownItem routerLink="">
-          <svg cIcon class="me-2" name="cilLockLocked"></svg>
-          Lock Account
-        </a>
-      </li>
+
+
+
       <li>
         <a cDropdownItem (click)="onLogout()" style="cursor: pointer;">
           <svg cIcon class="me-2" name="cilAccountLogout"></svg>
@@ -291,7 +126,7 @@
   </c-dropdown>
 </ng-template>
 
-<ng-template #themeDropdown>
+ <ng-template #themeDropdown>
   <c-dropdown alignment="end" variant="nav-item">
     <button [caret]="false" cDropdownToggle aria-label="Open theme picker">
       <svg cIcon [name]="icons()" size="lg"></svg>
