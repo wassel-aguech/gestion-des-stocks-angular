@@ -291,20 +291,17 @@ export class CardsComponent implements OnInit {
 
     this.wireconsumptionservice.updateWireConsumption(this.addForm.value).subscribe({
       next: (response) => {
-        this.message = 'Mise à jour réussie !';
-
+        this.message = 'Mise à jour réussie !!!';
 
         this.loadWireConsumption()
-
         this.closemodal.nativeElement.click();
-
         this.toastr.info('Mise à jour réussie', 'Succès');
 
 
       },
       error: (error) => {
-        console.error('Erreur lors de la mise à jour', error);
-        this.message = 'Erreur lors de la mise à jour.';
+        console.error('Erreur lors de la mise à jour !', error);
+        this.message = 'Erreur lors de la mise à jour !.';
       },
       complete: () => {
         this.isLoading = false;
