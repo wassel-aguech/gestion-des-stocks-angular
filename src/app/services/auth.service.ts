@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AuthenticationResponse } from '../models/authentication-response';
 import { User } from '../models/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -78,13 +78,34 @@ export class AuthserviceService {
   }
 
 
-  refreshAccessToken(): Observable<any> {
-    return this.http.post<any>('http://localhost:5000/api/auth/refresh', {}).pipe(
-      tap(response => {
-        const newAccessToken = response.access_token;
-        localStorage.setItem('access_token', newAccessToken);
-        this.accessTokenSubject.next(newAccessToken);
-      })
+  // refreshAccessToken(): Observable<any> {
+  //   return this.http.post<any>('http://localhost:5000/api/auth/refresh', {}).pipe(
+  //     tap(response => {
+  //       const newAccessToken = response.access_token;
+  //       localStorage.setItem('access_token', newAccessToken);
+  //       this.accessTokenSubject.next(newAccessToken);
+  //     })
+  //   );
+  // }
+
+  setTokens(access: string, refresh: string) {
+    localStorage.setItem('access_token', access);
+    localStorage.setItem('refresh_token', refresh);
+  }
+  setAccessToken(token: string): void {
+    localStorage.setItem('access_token', token);
+  }
+
+  refreshAccessToken(): Observable<string> {
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) return throwError(() => 'Missing refresh token');
+
+    return this.http.post<{ access_token: string }>(
+      'http://localhost:5000/auth/refresh',
+      { refreshToken }
+    ).pipe(
+      tap(response => this.setAccessToken(response.access_token)),
+      map(response => response.access_token)
     );
   }
 
@@ -95,8 +116,10 @@ export class AuthserviceService {
 
 
 
-
-
+  clearTokens() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+  }
 
 
 
@@ -130,6 +153,10 @@ export class AuthserviceService {
 
   getAccessToken(): string | null {
     return localStorage.getItem('access_token'); // ✅ Correction
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refresh_token');
   }
 
 
